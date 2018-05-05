@@ -6,12 +6,12 @@ function setConnected(connected) {
     $("#disconnect").prop("disabled", !connected);
     $("#nameInput").prop("disabled", connected);
     $("#msgInput").prop("disabled", !connected);
-    if (connected) {
-        $("#conversation").show();
-    }
-    else {
-        $("#conversation").hide();
-    }
+//    if (connected) {
+//        $("#conversation").show();
+//    }
+//    else {
+//        $("#conversation").hide();
+//    }
     $("#messages").html("");
 }
 
@@ -63,6 +63,8 @@ function sendChat() {
 	var message = makeMessage("chat");
 	message.msg = $("#msgInput").val();
     stompClient.send("/client/message", {}, JSON.stringify(message));
+    $("#msgInput").val("");
+    $("#msgInput").focus();
 }
 
 //function showChat(message) {
