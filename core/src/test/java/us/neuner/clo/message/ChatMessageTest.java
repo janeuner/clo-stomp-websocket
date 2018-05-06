@@ -11,6 +11,10 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * @author Jarod Neuner <jarod@neuner.us>
+ * Serialization/deserialization tests for @see ChatMessage.
+ */
 public class ChatMessageTest {
 
 	@Test

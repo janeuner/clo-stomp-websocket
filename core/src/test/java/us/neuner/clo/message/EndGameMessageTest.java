@@ -13,6 +13,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import us.neuner.clo.common.GameEntityId;
 import us.neuner.clo.common.SuggestionInfo;
 
+/**
+ * @author Jarod Neuner <jarod@neuner.us>
+ * Serialization/deserialization tests for @see EndGameMessage.
+ */
 public class EndGameMessageTest {
 
 	@Test

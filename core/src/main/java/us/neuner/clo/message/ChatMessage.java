@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-/**
+/*
  * @author Jarod Neuner <jarod@neuner.us>
- *
+ * Encapsulates the "chat" message.
  */
-@JsonPropertyOrder({ "psid", "msg" })
+@JsonPropertyOrder({ "type", "psid", "msg" })
 public class ChatMessage extends Message {
 
     private String msg;

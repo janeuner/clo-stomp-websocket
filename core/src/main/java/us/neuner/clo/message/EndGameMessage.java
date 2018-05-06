@@ -6,21 +6,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import us.neuner.clo.common.SuggestionInfo;
 
-/**
+/*
  * @author Jarod Neuner <jarod@neuner.us>
  * Encapsulates the endGame message.
  */
-@JsonPropertyOrder({ "psid", "victor", "solution" })
+@JsonPropertyOrder({ "type", "psid", "victor", "solution" })
 public class EndGameMessage extends Message {
 
 	private final String victor;
 	private final SuggestionInfo solution;
 	
-	/**
+	/*
      * Creates a new @see EndGameMessage object.
      * @param psid the player-session identifier associated with this message
 	 * @param victor the winning player (may be null - no victor)
-	 * @param solution the solution cards for this game session
+	 * @param solution the solution cards for a game session
 	 */
     @JsonCreator
 	public EndGameMessage(
@@ -32,15 +32,15 @@ public class EndGameMessage extends Message {
 		this.solution = solution;
 	}
 
-    /**
-     * Returns the location of the murder
-     * @return The @see GameEntityId of a weapon
+    /*
+     * Returns the winning player (may be null - no victor)
+     * @return The name of the winning player, or null.
      */
 	public String getVictor() {
 		return victor;
 	}
 
-    /**
+    /*
      * Returns the solution for a game session.
      * @return A @see SuggestionInfo that contains the game session solution
      */

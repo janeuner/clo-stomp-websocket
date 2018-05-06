@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.ArrayList;
 
+@JsonPropertyOrder({ "type", "psid", "msgList" })
 public class ChatMessageHistory extends Message {
 
 	@JsonProperty
@@ -23,7 +25,7 @@ public class ChatMessageHistory extends Message {
         this.msgList = new ArrayList<ChatEntry>(msgList);
     }
 
-    public ChatEntry getMsg(int index) {
+    public ChatEntry getEntry(int index) {
         return msgList.get(index);
     }
 }

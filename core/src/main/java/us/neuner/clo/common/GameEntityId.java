@@ -23,6 +23,10 @@ public enum GameEntityId {
 		this.text = text;
 	}
 	
+	/*
+	 * Returns a string representation of the object. 
+	 * @see java.lang.Enum#toString()
+	 */
 	@JsonValue
 	@Override
 	public String toString() {
