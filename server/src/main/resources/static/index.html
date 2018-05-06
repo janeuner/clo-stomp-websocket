@@ -8,6 +8,8 @@
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/webjars/bootstrap/js/alert.js"></script>
+    <script src="clo-util.js"></script>
     <script src="clo.js"></script>
 </head>
 <body>
@@ -17,7 +19,7 @@
     <div class="row vertical-expand">
     	<div class="col-xs-12 col-sm-8">
     		<div class="row">
-		        <div class="col-xs-12">
+		        <div id="startGamePanel" class="col-xs-12">
 		            <form class="form-inline">
 		                <div class="form-group">
 		                	<label class="sr-only" for="nameInput">Your name</label>
@@ -27,13 +29,17 @@
 		                </div>
 		            </form>
 		        </div>
-		        <div class="col-xs-12">
+			</div>
+			<div class="row">
+		        <div id="errorPanel" class="col-xs-12">
+					<div id="errorPanelItemTemplate" class="col-xs-12 alert alert-warning alert-dismissible" role="alert" hidden>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<strong id="errorMessage">Look Ma - I made an alert!</strong>
+					</div>
 		        </div>
-			   	<div class="col-xs-12 col-sm-6 col-md-8">
-			   	</div>
 			</div>
 		</div>
-		<div class="hidden-xs col-sm-4 vertical-expand">
+		<div id="chatPanel" class="hidden-xs col-sm-4 vertical-expand">
 			<div id="conversation">
 			    <table class="table table-striped">
 			        <thead>
@@ -57,7 +63,7 @@
 </div>
 <footer class="footer">
 	<div class="container">
-		<p class="text-muted">Forged from the blood and sweat of Clueless JHU Software Engineering Students.</p>
+		<div class="text-muted">Forged from the blood and sweat of Clueless JHU Software Engineering Students.</div>
 	</div>
 </footer>
 </body>
