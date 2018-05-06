@@ -24,8 +24,8 @@ public class ChatMessageHistoryTest {
 	@Test
 	public void testChatMessageHistorySerialization1() throws JsonProcessingException {
 		String psid = "ja84fgjk29f";
-        ChatEntry msg1 = new ChatEntry("Jane", "up hill", "12:01PM");
-        ChatEntry msg2 = new ChatEntry("Jack", "down hill", "12:02PM");
+        ChatEntry msg1 = new ChatEntry("Jane", "up hill", "2018/05/06 23:09:30");
+        ChatEntry msg2 = new ChatEntry("Jack", "down hill", "2018/05/06 23:09:51");
         
         List<ChatEntry> msgList = new ArrayList<>();
         msgList.add(msg1);
@@ -44,8 +44,8 @@ public class ChatMessageHistoryTest {
 	public void testChatMessageHistoryDeserialization1() throws IOException {
 		String psid = "ja84fgjk29f";
 		UUID mid = UUID.randomUUID();
-        ChatEntry msg1 = new ChatEntry("Jane", "up hill", "12:01PM");
-        ChatEntry msg2 = new ChatEntry("Jack", "down hill", "12:02PM");
+        ChatEntry msg1 = new ChatEntry("Jane", "up hill", "2018/05/06 23:09:30");
+        ChatEntry msg2 = new ChatEntry("Jack", "down hill", "2018/05/06 23:09:51");
                 
 		String json = "{\"type\":\"chatHistory\",\"psid\":\"" + psid +
                 			"\",\"mid\":\"" + mid.toString() +
@@ -70,8 +70,8 @@ public class ChatMessageHistoryTest {
 	public void testChatMessageHistorySerialization2() throws JsonProcessingException {
 		String psid = "ja84fgjk29f";
 		UUID mid = UUID.randomUUID();
-        ChatEntry msg1 = new ChatEntry("Jane", "up hill", "12:01PM");
-        ChatEntry msg2 = new ChatEntry("Jack", "down hill", "12:02PM");
+        ChatEntry msg1 = new ChatEntry("Jane", "up hill", "2018/05/06 23:09:30");
+        ChatEntry msg2 = new ChatEntry("Jack", "down hill", "2018/05/06 23:09:53");
         
         List<ChatEntry> msgList = new ArrayList<>();
         msgList.add(msg1);
@@ -91,8 +91,8 @@ public class ChatMessageHistoryTest {
 	public void testChatMessageHistoryDeserialization2() throws IOException {
 		String psid = "ja84fgjk29f";
 		UUID mid = UUID.randomUUID();
-        ChatEntry msg1 = new ChatEntry("Jane", "up hill", "12:01PM");
-        ChatEntry msg2 = new ChatEntry("Jack", "down hill", "12:02PM");
+        ChatEntry msg1 = new ChatEntry("Jane", "up hill", "2018/05/06 23:09:30");
+        ChatEntry msg2 = new ChatEntry("Jack", "down hill", "2018/05/06 23:09:58");
                 
 		String json = "{\"type\":\"chatHistory\",\"psid\":\"" + psid +
     						"\",\"mid\":\"" + mid.toString() +
