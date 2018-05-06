@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import us.neuner.clo.common.GameEntityId;
 import us.neuner.clo.common.PlayerInfo;
@@ -35,12 +36,14 @@ public class GameSetupMessageTest {
 		players.add(player1);
 		players.add(player2);         
 		String psid = "ja84fgjk29f";
+		UUID mid = UUID.randomUUID();
 
 
-		GameSetupMessage gsm = new GameSetupMessage(psid, players);
+		GameSetupMessage gsm = new GameSetupMessage(psid, mid, players);
 		String json = new ObjectMapper().writeValueAsString(gsm);
 		assertThat(json, containsString("gameSetup"));
 		assertThat(json, containsString(psid));
+		assertThat(json, containsString(mid.toString()));
 		assertThat(json, containsString(player1.getPlayerName()));
 		assertThat(json, containsString(player2.getPlayerName()));
 		assertThat(json, containsString(player1.getPieceName().toString()));
@@ -56,6 +59,7 @@ public class GameSetupMessageTest {
 		PlayerInfo player1 = new PlayerInfo("Billy Bob");
 		PlayerInfo player2 = new PlayerInfo("Uncle Sam");
 		String psid = "ja84fgjk29f";
+		UUID mid = UUID.randomUUID();
 		
 		assertEquals(player1.getPieceName(), GameEntityId.InvalidValue);
 		assertEquals(player2.getPieceName(), GameEntityId.InvalidValue);
@@ -64,7 +68,7 @@ public class GameSetupMessageTest {
 		assertFalse(player1.getHasAccused());
 		assertFalse(player2.getHasAccused());
 
-		String json = "{\"type\":\"gameSetup\",\"psid\":\"" + psid + "\",\"players\":[" + 
+		String json = "{\"type\":\"gameSetup\",\"psid\":\"" + psid + "\",\"mid\":\"" + mid.toString() + "\",\"players\":[" + 
 				"{\"playerName\":\"" + player1.getPlayerName() + "\",\"pieceName\":\"" + player1.getPieceName().toString() +
 				"\",\"active\":\"false\",\"hasAccused\":\"false\"}," + 
 				"{\"playerName\":\"" + player2.getPlayerName() + "\",\"pieceName\":\"" + player2.getPieceName().toString() +
@@ -74,6 +78,7 @@ public class GameSetupMessageTest {
 		GameSetupMessage gsm = new ObjectMapper().readerFor(GameSetupMessage.class).readValue(json);
 
 		assertEquals(psid, gsm.getPsid());
+		assertEquals(mid, gsm.getMid());
 		PlayerInfo gsm1 = gsm.getPlayer(0);
 		PlayerInfo gsm2 = gsm.getPlayer(1);
 		assertEquals(player1, gsm1);

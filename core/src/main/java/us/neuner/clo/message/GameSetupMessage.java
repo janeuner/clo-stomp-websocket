@@ -2,6 +2,7 @@ package us.neuner.clo.message;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,7 +15,7 @@ import us.neuner.clo.common.PlayerInfo;
  * @author Jarod Neuner <jarod@neuner.us>
  * Encapsulates the "gameSetup" message.
  */
-@JsonPropertyOrder({ "type", "psid", "players" })
+@JsonPropertyOrder({ "type", "psid", "mid", "players" })
 public class GameSetupMessage extends Message {
 
 	@JsonProperty
@@ -25,9 +26,22 @@ public class GameSetupMessage extends Message {
      * @param psid the player-session identifier associated with this message
 	 * @param players the participating players in the current game session
 	 */
-    @JsonCreator
-	public GameSetupMessage(@JsonProperty("psid") String psid, @JsonProperty("players") List<PlayerInfo> players) {
+	public GameSetupMessage(String psid, List<PlayerInfo> players) {
 		super(psid);
+		this.players = new ArrayList<PlayerInfo>(players);
+	}
+    
+	/*
+     * Creates a new @see GameSetupMessage object.
+     * @param psid the player-session identifier associated with this message
+     * @param mid the unique message identifier for this message
+	 * @param players the participating players in the current game session
+	 */
+    @JsonCreator
+	public GameSetupMessage(@JsonProperty("psid") String psid, 
+    		@JsonProperty("mid") UUID mid, 
+    		@JsonProperty("players") List<PlayerInfo> players) {
+		super(psid, mid);
 		this.players = new ArrayList<PlayerInfo>(players);
 	}
 

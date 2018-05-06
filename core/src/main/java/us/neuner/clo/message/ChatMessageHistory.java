@@ -1,6 +1,7 @@
 package us.neuner.clo.message;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  * @author Jarod Neuner <jarod@neuner.us>
  * Encapsulates the "gameSetup" message.
  */
-@JsonPropertyOrder({ "type", "psid", "msgList" })
+@JsonPropertyOrder({ "type", "psid", "mid", "msgList" })
 public class ChatMessageHistory extends Message {
 
 	@JsonProperty
@@ -33,9 +34,22 @@ public class ChatMessageHistory extends Message {
      * @param psid the player-session identifier associated with this message
 	 * @param msgList the chat messages that have been sent in the current game session
 	 */
-    @JsonCreator
-    public ChatMessageHistory(@JsonProperty("psid") String psid, @JsonProperty("msgList") List<ChatEntry> msgList) {
+    public ChatMessageHistory(String psid, List<ChatEntry> msgList) {
     	super(psid);
+        this.msgList = new ArrayList<ChatEntry>(msgList);
+    }
+
+	/*
+     * Creates a new @see ChatMessageHistory object.
+     * @param psid the player-session identifier associated with this message
+     * @param mid the unique message identifier for this message
+	 * @param msgList the chat messages that have been sent in the current game session
+	 */
+    @JsonCreator
+    public ChatMessageHistory(@JsonProperty("psid") String psid,
+    		@JsonProperty("mid") UUID mid, 
+    		@JsonProperty("msgList") List<ChatEntry> msgList) {
+    	super(psid, mid);
         this.msgList = new ArrayList<ChatEntry>(msgList);
     }
 
