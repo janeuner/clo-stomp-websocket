@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 	@Type(value = EndGameMessage.class, name = "endGame"),  
 	@Type(value = ChatMessage.class, name = "chat"), 
 	@Type(value = ChatMessageHistory.class, name = "chatHistory"),
+	@Type(value = ErrorMessage.class, name = "error"),
 })
 public abstract class Message {
 
