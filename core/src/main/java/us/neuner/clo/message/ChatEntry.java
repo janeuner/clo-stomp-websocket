@@ -1,10 +1,11 @@
 package us.neuner.clo.message;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-/**
+/*
  * @author Jarod Neuner <jarod@neuner.us>
  * @author Tim Hanson <tim@timgineer.io>
  * Describes entries in the chat history of a CLO game session.
@@ -16,7 +17,7 @@ public class ChatEntry {
     private final String msg;
     private final String time;
 
-	/**
+	/*
 	 * Create a new @see ChatEntry object.
 	 * @param playerName the sender of the message
 	 * @param msg the message
@@ -35,6 +36,7 @@ public class ChatEntry {
     /*
      * Returns the sender of the message
      */
+	@JsonGetter("playerName")
     public String getPlayerName() {
     	return playerName;
     }
@@ -42,6 +44,7 @@ public class ChatEntry {
     /*
      * Returns the message
      */
+	@JsonGetter("msg")
     public String getMsg() {
         return msg;
     }
@@ -50,6 +53,7 @@ public class ChatEntry {
 	 * Returns a hash code value for the object.
 	 * @see java.lang.Object#hashCode()
 	 */
+	@JsonGetter("time")
     public String getTime() {
     	return time;
     }
