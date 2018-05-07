@@ -18,6 +18,18 @@ public class EndGameMessage extends Message {
 
 	private final String victor;
 	private final SuggestionInfo solution;
+
+	/*
+     * Creates a new @see EndGameMessage object.
+     * @param psid the player-session identifier associated with this message
+	 * @param victor the winning player (may be null - no victor)
+	 * @param solution the solution cards for a game session
+	 */
+	public EndGameMessage(String psid, String victor, SuggestionInfo solution) {
+		super(psid);
+		this.victor = victor;
+		this.solution = solution;
+	}
 	
 	/*
      * Creates a new @see EndGameMessage object.
