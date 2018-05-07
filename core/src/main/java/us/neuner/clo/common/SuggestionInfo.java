@@ -1,5 +1,8 @@
 package us.neuner.clo.common;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -88,5 +91,29 @@ public class SuggestionInfo {
 		}
 
 		return false;
+	}
+	
+	/*
+	 * Creates a randomized SuggestionInfo with a Suspect, a Room, and a Weapon.
+	 * Suitable for creating the victory solution when a session is initialized.
+	 */
+	public static SuggestionInfo Random() {
+		SecureRandom rng;
+		try {
+			rng = SecureRandom.getInstanceStrong();
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException("This software product requires SecureRandom to for normal operation.", e);
+		}
+
+		int roomNum = rng.nextInt(9);
+		int suspectNum = rng.nextInt(6);
+		int weaponNum = rng.nextInt(6);
+		
+		GameEntityId[] array = GameEntityId.values();
+		GameEntityId room = array[GameEntityId.BilliardRoom.ordinal() + roomNum];
+		GameEntityId suspect = array[GameEntityId.MissScarlet.ordinal() + suspectNum];
+		GameEntityId weapon = array[GameEntityId.LeadPipe.ordinal() + weaponNum];
+		
+		return new SuggestionInfo(room, suspect, weapon);
 	}
 }
