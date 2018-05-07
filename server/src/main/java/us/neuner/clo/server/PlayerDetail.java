@@ -35,13 +35,6 @@ public class PlayerDetail implements AutoCloseable {
 		return psid == null ? null : players.get(psid);
 	}
 	
-	/*
-	 * Remove a PlayerDetail instance from the singleton map.
-	 */
-	public static void removePlayerDetail(PlayerDetail pd) {
-		players.remove(pd.getPsid());
-	}
-	
 	private final CloGameSession session;
 	private final String psid;
 	private final PlayerInfo playerInfo;
@@ -68,10 +61,9 @@ public class PlayerDetail implements AutoCloseable {
 
 	/*
 	 * Closes this resource, relinquishing any underlying resources.
-	 * @throws Exception if this resource cannot be closed
 	 */
 	@Override
-	public void close() throws Exception {
+	public void close()  {
 		players.remove(psid);
 	}
 
