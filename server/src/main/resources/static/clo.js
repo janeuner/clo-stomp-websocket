@@ -15,9 +15,9 @@ function setConnected(connected) {
 //    else {
 //        $("#conversation").hide();
 //    }
-    $("#messages").html("");
     
     if (!connected) {
+        $("#messages").html("");
     	clientJoin = null;
     	characterSelect = null;
     }
@@ -70,6 +70,7 @@ function disconnect() {
 
 function handleGameSetup(msg) {
     setConnected(true);
+    //TODO: Update connected player list
 }
 
 function handleChatHistory(msg) {
