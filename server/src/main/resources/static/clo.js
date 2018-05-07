@@ -113,7 +113,7 @@ function sendClientJoin(playerName, sessionPassword) {
 	var message = makeMessage("clientJoin");
 	if (typeof sessionPassword == "string")
 		message.sessionPassword = sessionPassword;
-	message.playerName = playerName
+	message.playerName = playerName;
 	stompClient.send("/client/message", {}, JSON.stringify(message));
 }
 

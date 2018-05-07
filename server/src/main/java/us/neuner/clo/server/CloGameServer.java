@@ -1,12 +1,9 @@
 package us.neuner.clo.server;
 
-import us.neuner.clo.message.ErrorMessage;
-import us.neuner.clo.message.Message;
+import us.neuner.clo.message.*;
+import us.neuner.clo.server.CloGameSession.State;
 
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.UUID;
-import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -23,14 +20,14 @@ public class CloGameServer {
 
     private Log log = LogFactory.getLog(CloGameServer.class);
 
-    private CloGameSession session = new CloGameSession(this);
+    private CloGameSession session;
 
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
     
     public CloGameServer() {
     	
-    	session = new CloGameSession(this);
+    	session = null;
     }
     
     @MessageMapping("/message")
@@ -52,29 +49,52 @@ public class CloGameServer {
 	        	pd.setSid(sid);
 	        }
 	    	
-	        if (msg instanceof us.neuner.clo.message.ClientJoinMessage) {
-	        	//Handling for newly-connected clients
-	        	Boolean joined = session.clientJoinHandler((us.neuner.clo.message.ClientJoinMessage)msg, sid, pd);
-	        	if (!joined) {
-	        		//TODO: Handling for failed client join operations
+	        if (msg instanceof ClientJoinMessage) {
+
+	        	// Handling for newly-connected clients
+	        	CloGameSession sess;
+	        	
+	        	synchronized (this) {
+		        	
+		        	// If necessary, allocate a new session
+		        	if ((this.session == null) || (this.session.getState() == State.Cleanup))
+		        		sess = this.session = new CloGameSession(this);
+		        	else 
+		        		sess = this.session;
 	        	}
+	        	
+	        	sess.clientJoinHandler((ClientJoinMessage)msg, sid, pd);
+	        	
 	        }
-	        else if (pd == null) {
-	        	//TODO: Handling for stateful client messages from unknown endpoints
-	        }
+	    	else if (pd == null) {
+	    		ErrorMessage error = new ErrorMessage(msg, "Malformed message from client: Missing or invalid psid.");
+	    		sendToClient(sid, error);
+	    	}
 	        else {
-	        	//Handling for stateful messages
-	        	if (msg instanceof us.neuner.clo.message.ChatMessage) {
-		        	pd.getSession().chatMessageHandler((us.neuner.clo.message.ChatMessage)msg, pd.getPlayerInfo().getPlayerName());
+	        	CloGameSession sess = pd.getSession();
+	        	
+	        	//if (msg instanceof us.neuner.clo.message.)
+	        	
+	        	if (msg instanceof ChatMessage) {
+		        	sess.chatMessageHandler((ChatMessage)msg, pd.getPlayerInfo().getPlayerName());
 		        }
 	        }
     	}
     }
 
-    //TODO: Create test for this class with a {PlayerDetail, ChatHistoryMessage} signature.
+    /*
+	 * Sends a message to a specified player.
+	 * @param pd the target player for this message
+	 * @param msg the message to send
+     */
     public void sendToClient(PlayerDetail pd, Message msg) { sendToClient(pd.getSid(), msg); }
-    
-    private void sendToClient(String sid, Message msg) {
+
+	/*
+	 * Sends a message to a specified client.
+	 * @param sid the connection/session ID for this message
+	 * @param msg the message to send 
+	 */
+    public void sendToClient(String sid, Message msg) {
 
         SimpMessageHeaderAccessor accessor = SimpMessageHeaderAccessor.create();
         accessor.setSessionId(sid);
@@ -85,7 +105,7 @@ public class CloGameServer {
     }
 
     @EventListener
-    public void onDisconnectEvent(SessionDisconnectEvent e) {
+    private void onDisconnectEvent(SessionDisconnectEvent e) {
     	String sid = e.getSessionId();
     	log.info("Client disconnect: " + sid);
     	
