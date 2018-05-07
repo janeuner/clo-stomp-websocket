@@ -17,7 +17,7 @@ import javax.xml.bind.DatatypeConverter;
  */
 public class PlayerDetail implements AutoCloseable {
 	
-	/**
+	/*
 	 * Static singleton map for @see {@link #getPlayerDetail(String)}.
 	 */
 	private static SortedMap<String, PlayerDetail> players;
@@ -26,7 +26,7 @@ public class PlayerDetail implements AutoCloseable {
 		players = Collections.synchronizedSortedMap(new TreeMap<String, PlayerDetail>());
 	} 
 	
-	/**
+	/*
 	 * Allows access to the singleton map for @see PlayerDetail instances.
 	 * @param psid the 
 	 * @return
@@ -35,13 +35,20 @@ public class PlayerDetail implements AutoCloseable {
 		return psid == null ? null : players.get(psid);
 	}
 	
+	/*
+	 * Remove a PlayerDetail instance from the singleton map.
+	 */
+	public static void removePlayerDetail(PlayerDetail pd) {
+		players.remove(pd.getPsid());
+	}
+	
 	private final CloGameSession session;
 	private final String psid;
 	private final PlayerInfo playerInfo;
 
 	private String sid;
 	
-	/**
+	/*
 	 * Creates a new PlayerDetail object.
 	 * @param sid the initial session ID for this PlayerDetail object.
 	 */
@@ -59,9 +66,8 @@ public class PlayerDetail implements AutoCloseable {
 		players.put(psid, this);
 	}
 
-	/**
+	/*
 	 * Closes this resource, relinquishing any underlying resources.
-
 	 * @throws Exception if this resource cannot be closed
 	 */
 	@Override
@@ -69,7 +75,7 @@ public class PlayerDetail implements AutoCloseable {
 		players.remove(psid);
 	}
 
-	/**
+	/*
 	 * Get the @see CloGameSession that is associated with the current PlayerDetail object.
 	 * @return a @see CloGameSession instance.
 	 */
@@ -77,7 +83,7 @@ public class PlayerDetail implements AutoCloseable {
 		return session;
 	}
 
-	/**
+	/*
 	 * Get the most recently session ID, which maps to a specific WebSocket connection.
 	 * @return a session ID String
 	 */
@@ -85,7 +91,7 @@ public class PlayerDetail implements AutoCloseable {
 		return sid;
 	}
 
-	/**
+	/*
 	 * Set the most recently session ID, which maps to a specific WebSocket connection.
 	 * @param sid a session ID String
 	 */
@@ -93,7 +99,7 @@ public class PlayerDetail implements AutoCloseable {
 		this.sid = sid;
 	}
 
-	/**
+	/*
 	 * Get the player session ID, which identifies a unique player-session relationship.
 	 * @return a player session id String
 	 */
@@ -101,7 +107,7 @@ public class PlayerDetail implements AutoCloseable {
 		return psid;
 	}
 	
-	/**
+	/*
 	 * Get the @see PlayerInfo object for this instance.
 	 * @return a @PlayerInfo object
 	 */
