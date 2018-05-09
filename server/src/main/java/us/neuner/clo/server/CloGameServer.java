@@ -57,10 +57,18 @@ public class CloGameServer {
 	        	synchronized (this) {
 		        	
 		        	// If necessary, allocate a new session
-		        	if ((this.session == null) || (this.session.getState() == State.Cleanup))
+		        	if ((this.session == null) || (this.session.getState() == State.Cleanup)) {
 		        		sess = this.session = new CloGameSession(this);
-		        	else 
+		        		
+		        		// Is this a reconnect?
+		        		if (pd != null) {
+		        			pd.close();
+		        			pd = null;
+		        		}
+		        	}
+		        	else { 
 		        		sess = this.session;
+		        	}
 	        	}
 	        	
 	        	sess.clientJoinHandler((ClientJoinMessage)msg, sid, pd);

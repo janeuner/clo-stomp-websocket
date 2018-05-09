@@ -7,6 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.Timer;
+import java.util.UUID;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import us.neuner.clo.common.PlayerInfo;
 import us.neuner.clo.common.SuggestionInfo;
@@ -23,7 +27,9 @@ import us.neuner.clo.message.GameSetupMessage;
  * Models the global state of a CLO game session.
  */
 public class CloGameSession {
-    
+
+	private static Logger LOG = LogManager.getLogger(CloGameSession.class);
+	  
 	/*
 	 * @author Jarod Neuner <jarod@neuner.us>
 	 * Modes of operation for each @see CloGameSession instance.
@@ -56,16 +62,11 @@ public class CloGameSession {
 	private static final int PLAYER_NAME_LEN_MIN = 3;		// Player names must be at least this long
 	private static final int PLAYER_NAME_LEN_MAX = 16;		// Player names must be no longer than this
 	
-	private static final SimpleDateFormat CHAT_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-	
-	static {
-		CHAT_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
-	}
-	
 	private final CloGameServer server;
 	private final List<PlayerDetail> players; 
     private List<ChatEntry> msgList;
     private CloGameSession.State state;
+    private final UUID gameSessionId;
     private final Object lock;
     
     // End Game Objects
@@ -84,10 +85,38 @@ public class CloGameSession {
         this.state = State.Setup;
         this.lock = new Object();
         this.solution = SuggestionInfo.Random();
+        this.gameSessionId = UUID.randomUUID();
         this.disposeTimer = new Timer(true);
 	}
 
 	// BEGIN: Public Methods
+
+	/*
+	 * Remove a player from the @see CloGameSession
+	 * @param pd the @see PlayerDetail for the player to remove
+	 */
+	public void removePlayer(PlayerDetail pd) {
+		removePlayer(pd.getPsid());
+	}
+	
+	/*
+	 * Remove a player from the @see CloGameSession
+	 * @param psid the player-session id for the player to remove
+	 */
+	public void removePlayer(String psid) {
+		Boolean removed = false;
+		
+		for (PlayerDetail pd : this.players) {
+			if (pd.getPsid().equals(psid)) {
+				removed = this.players.remove(pd);
+				break;
+			}
+		}
+		
+		if (removed) {
+			//TODO: Handling for players that are removed during play state
+		}
+	}
 	
     /*
      * Returns the current mode of operation for this session.
@@ -108,6 +137,9 @@ public class CloGameSession {
 	 */
 	public void clientJoinHandler(ClientJoinMessage join, String sid, PlayerDetail pd) {
 
+		if (pd != null)
+			assert(this.players.contains(pd));
+		
 		if (pd == null) {
 			String name = join.getPlayerName();
 			Boolean joined = false;
@@ -115,21 +147,24 @@ public class CloGameSession {
 			// Input validation on PlayerDetail parameters
 			if ((name == null) || (name.length() < PLAYER_NAME_LEN_MIN) || (name.length() > PLAYER_NAME_LEN_MAX)) {
 				
-				String errMsg = "Players must provide name between %i and %i characters long.";
+				String errMsg = "Players must provide name between %d and %d characters long.";
 				sendErrorMessage(join, sid, String.format(errMsg, PLAYER_NAME_LEN_MIN, PLAYER_NAME_LEN_MIN));
 				return;
 			}
 
 			// Create new PlayerDetail...
 			synchronized (lock) {
-				if ((this.state != State.Setup) && (this.players.size() < PLAYER_START_COUNT)) {
+				if ((this.state == State.Setup) && (this.players.size() < PLAYER_START_COUNT)) {
 					pd = new PlayerDetail(this, sid, name);
 					this.players.add(pd);
 					joined = true;
 				}
 			}
 			
-			if (!joined) {
+			if (joined) {
+				LOG.info("Adding player[session={}]: name={} psid={} sid={}", this.gameSessionId, name, pd.getPsid(), sid);
+			}
+			else /* if (!joined) */ {
 				String errMsg = "Game session in progress.  Please try back again later...";
 				sendErrorMessage(join, sid, errMsg);
 				return;
@@ -137,18 +172,8 @@ public class CloGameSession {
 			
 		}
 		
-		if (state == State.Setup)
-			sendGameSetup();
-		else if (state == State.Play)
-			; //TODO: rejoining in the play state...
-		else
-			sendEndGame(pd);
-		
+		sessionStateUpdate();
 		sendChatHistory(pd);
-		
-		//TODO: Move this to CharacterSelectMessage at the appropriate time...
-		if (players.size() >= PLAYER_START_COUNT)
-			setCleanup();
 		
 		return;
 	}
@@ -159,20 +184,36 @@ public class CloGameSession {
 	 * @param playerName player name for the client that sent the message
 	 */
 	public void chatMessageHandler(ChatMessage chat, String playerName) {
-		String msg = chat.getMsg();
 		
-		if ((msg != null) && !msg.isEmpty())
-			msgList.add(new ChatEntry(playerName, msg, CHAT_DATE_FORMAT.format(new Date())));
-                
-        for (PlayerDetail pd : this.players)
-        	sendChatHistory(pd);
+		String msg = chat.getMsg();
+		this.sessionAddChatMessage(playerName, msg);
 	}
 	
 	// END: Incoming message & event handlers
 
 	// BEGIN: State update operations
 	
-	private void setCleanup() {
+	/*
+	 * Send a global update appropriate to the current session state
+	 */
+	private void sessionStateUpdate() {
+		
+		if (state == State.Setup) {
+			sendGameSetup();
+
+			//TODO: Move this to CharacterSelectMessage at the appropriate time...
+			if (players.size() >= PLAYER_START_COUNT) {
+				LOG.info("Starting CLO session[session={}]: {}", this.gameSessionId, this.players);
+				sessionCleanup();
+			}
+		}
+		else if (state == State.Play)
+			; //TODO: rejoining in the play state...
+		else
+			sendEndGame();
+	}
+	
+	private void sessionCleanup() {
 		
 		/*
 		 * Cleans up the @see CloGameSession after a timeout.
@@ -189,14 +230,10 @@ public class CloGameSession {
 			@Override
 			public void run() {
 
-				ChatEntry ce = new ChatEntry("System", "Terminating Session", CHAT_DATE_FORMAT.format(new Date()));
-				this.session.msgList.add(ce);
-		        for (PlayerDetail pd : this.session.players)
-		        	this.session.sendChatHistory(pd);
+				this.session.sessionAddChatMessage("System", "Terminating chat session.");
 				
 				for (PlayerDetail pd : this.session.players)
 					pd.close();
-				
 				this.session.players.clear();
 			}
 		}
@@ -211,12 +248,28 @@ public class CloGameSession {
 		}
 		
 		if (startCleanup) {
-	        for (PlayerDetail pd : this.players)
-	        	sendEndGame(pd);
+	        sendEndGame();
+			this.sessionAddChatMessage("System", "Game Session has ended.");
 	        
 	        this.disposeTimer.schedule(new SessionCleanupTimerTask(this), 120000);
 		}
 		
+	}
+
+	/*
+	 * Create a new @see ChatEntry object.
+	 * @param playerName the sender of the message
+	 * @param msg the message
+	 */
+	private void sessionAddChatMessage(String playerName, String msg) {
+
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		fmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+			
+		ChatEntry ce = new ChatEntry(playerName, msg, fmt.format(new Date()));
+		this.msgList.add(ce);
+        for (PlayerDetail pd : this.players)
+        	this.sendChatHistory(pd);
 	}
 
 	// END: State update operations
@@ -236,10 +289,12 @@ public class CloGameSession {
         }
 	}
 
-	private void sendEndGame(PlayerDetail pd) {
-    	String psid = pd.getPsid();
-		EndGameMessage egm = new EndGameMessage(psid, this.victor, this.solution);
-		server.sendToClient(pd, egm);
+	private void sendEndGame() {
+        for (PlayerDetail pd : this.players) {
+        	String psid = pd.getPsid();
+    		EndGameMessage egm = new EndGameMessage(psid, this.victor, this.solution);
+        	server.sendToClient(pd, egm);
+        }
 	}
 	
 	/*

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Appenders>
+		<!-- Console Appender -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+
+	</Appenders>
+
+	<Loggers>
+		<!-- Log everything in custom package -->
+		<Logger name="us.neuner.clo" level="debug"
+			additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
+		</Logger>
+
+		<!-- Log everything in Spring Boot -->
+		<Logger name="org.springframework.boot" level="debug"
+			additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+
+		<!-- Log everything in Spring Core -->
+		<Logger name="org.springframework.core" level="debug"
+			additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+
+		<Root level="error">
+			<AppenderRef ref="Console" />
+		</Root>
+
+	</Loggers>
+</Configuration>

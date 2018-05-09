@@ -1,8 +1,7 @@
 var stompClient = null;
 var psid = null;
 
-var clientJoin = null;
-var characterSelect = null;
+var endGame = null;
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -33,6 +32,9 @@ function receive(serverMessage) {
 		if (msg.type == "gameSetup")
 			handleGameSetup(msg);
 		
+		else if (msg.type == "endGame")
+			handleEndGame(msg);
+		
 		else if (msg.type == "chatHistory") 
 			handleChatHistory(msg);
 		
@@ -42,23 +44,32 @@ function receive(serverMessage) {
 }
 
 function connect() {
-    var socket = new SockJS('/clo');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        //console.log('Connected: ' + frame);
-        $("#connect").prop("disabled", true);
-        $("#nameInput").prop("disabled", true);
-        $("#disconnect").prop("disabled", true);
-        
-        stompClient.subscribe('/user/queue/server', receive);
-        
+	
+	if (stompClient === null) {
+	    var socket = new SockJS('/clo');
+	    stompClient = Stomp.over(socket);
+	    stompClient.connect({}, function (frame) {
+	        //console.log('Connected: ' + frame);
+	        $("#connect").prop("disabled", true);
+	        $("#nameInput").prop("disabled", true);
+	        $("#disconnect").prop("disabled", true);
+	        
+	        stompClient.subscribe('/user/queue/server', receive);
+	        
+	        sendClientJoin($("#nameInput").val());
+	    });
+	}
+	else {
+
         sendClientJoin($("#nameInput").val());
-    });
+	}
+	
 }
 
 function disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
+        stompClient = null;
     }
     setConnected(false);
     //console.log("Disconnected");
@@ -69,8 +80,14 @@ function disconnect() {
 /////////////// START MESSAGE HANDLERS ///////////////
 
 function handleGameSetup(msg) {
+    endGame = undefined;
     setConnected(true);
     //TODO: Update connected player list
+}
+
+function handleEndGame(msg) {
+    endGame = msg;
+    $("#connect").prop("disabled", false);
 }
 
 function handleChatHistory(msg) {
@@ -113,6 +130,8 @@ function sendClientJoin(playerName, sessionPassword) {
 	var message = makeMessage("clientJoin");
 	if (typeof sessionPassword == "string")
 		message.sessionPassword = sessionPassword;
+	if (endGame !== undefined)
+		message.psid = undefined;
 	message.playerName = playerName;
 	stompClient.send("/client/message", {}, JSON.stringify(message));
 }
