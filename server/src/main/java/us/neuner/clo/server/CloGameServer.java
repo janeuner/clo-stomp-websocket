@@ -73,8 +73,6 @@ public class CloGameServer {
 	        else {
 	        	CloGameSession sess = pd.getSession();
 	        	
-	        	//if (msg instanceof us.neuner.clo.message.)
-	        	
 	        	if (msg instanceof ChatMessage) {
 		        	sess.chatMessageHandler((ChatMessage)msg, pd.getPlayerInfo().getPlayerName());
 		        }
