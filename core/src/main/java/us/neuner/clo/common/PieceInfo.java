@@ -100,7 +100,6 @@ public class PieceInfo {
 
 	static Boolean isHallway(GameEntityId id) {
 		switch (id) {
-			//TODO: Add remaining hallways
 		case H01:
 			return true;
 		case H02:
