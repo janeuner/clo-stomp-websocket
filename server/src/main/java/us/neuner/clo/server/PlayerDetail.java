@@ -106,4 +106,11 @@ public class PlayerDetail implements AutoCloseable {
 	public PlayerInfo getPlayerInfo() {
 		return playerInfo;
 	}
+
+	@Override
+	public String toString() {
+		return playerInfo.getPlayerName();
+	}
+	
+	
 }
