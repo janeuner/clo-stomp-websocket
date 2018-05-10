@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Area;
+import java.net.URL;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,19 +23,17 @@ public class IntroductionUI extends JFrame implements ActionListener, MouseListe
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Area startBox;
-
 	private JLabel label;
-	private StartGameView startGame;
 
 	public IntroductionUI() {
 		JPanel panel = new JPanel(new BorderLayout());
-		label = new JLabel("", new ImageIcon("C:\\CLO\\ClientGUI\\TitlePage.png"), JLabel.CENTER);
+		URL titlePage = this.getClass().getResource("/img/ClientGUI/TitlePage.png");
+		label = new JLabel("", new ImageIcon(titlePage), JLabel.CENTER);
 		panel.add(label, BorderLayout.CENTER);
 
 		label.addMouseListener(this);
 
-		startBox = new Area(new Rectangle(810, 810, 96, 32));
+		new Area(new Rectangle(810, 810, 96, 32));
 
 		add(panel);
 		setTitle("ClO GameClient");
@@ -47,7 +47,7 @@ public class IntroductionUI extends JFrame implements ActionListener, MouseListe
 
 	public void mouseClicked(MouseEvent e) {
 
-		startGame = new StartGameView();
+		new StartGameView();
 		dispose();
 
 	}
@@ -83,6 +83,6 @@ public class IntroductionUI extends JFrame implements ActionListener, MouseListe
 	}
 
 	public static void main(String[] args) {
-		IntroductionUI i = new IntroductionUI();
+		new IntroductionUI();
 	}
 }
