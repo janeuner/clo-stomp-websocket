@@ -20,9 +20,6 @@ public class StartGameView extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String playerName;
-	private String sessionPassword;
-	private String serverip;
 	private JTextField enterName = new JTextField(15);
 	private JTextField enterServerIP = new JTextField(15);
 	private JTextField enterSessionPassword = new JTextField(15);
@@ -36,11 +33,21 @@ public class StartGameView extends JFrame{
 	private JButton joinGame = new JButton("Join Game");
 	
 	StartGameView(){
-		name.add(screenName); name.add(enterName); name.setLayout(new FlowLayout());
-		server.add(serverIP); server.add(enterServerIP); server.setLayout(new FlowLayout());
-		protocol.add(sessionPass); protocol.add(enterSessionPassword); server.setLayout(new FlowLayout());
-		game.add(joinGame); game.setLayout(new FlowLayout());
-		add(name); add(server); add(protocol); add(game);
+		name.add(screenName); 
+		name.add(enterName); 
+		name.setLayout(new FlowLayout());
+		server.add(serverIP); 
+		server.add(enterServerIP); 
+		server.setLayout(new FlowLayout());
+		protocol.add(sessionPass); 
+		protocol.add(enterSessionPassword); 
+		server.setLayout(new FlowLayout());
+		game.add(joinGame); 
+		game.setLayout(new FlowLayout());
+		add(name); 
+		add(server); 
+		add(protocol); 
+		add(game);
 		this.setLayout(new GridLayout(4, 0));
 		setTitle("Join a Game");
 		setSize(810, 810);
@@ -50,7 +57,7 @@ public class StartGameView extends JFrame{
 	    setResizable(false);
 	    joinGame.addActionListener(new ActionListener(){
 	    	public void actionPerformed(ActionEvent e){
-	    		CharacterSelectView c = new CharacterSelectView(enterName.getText());
+	    		new CharacterSelectView(enterName.getText());
 	    		dispose();
 	    	}
 	    });
