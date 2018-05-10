@@ -21,7 +21,6 @@ public class CharacterSelectView extends JFrame implements ActionListener {
 	private ArrayList<JButton> charButtons; 
 	private PlayerInfo selection;
 	private int playerSelectNum;
-	private CLOGameClient mainWindow;
 	private String name;
 	
 	public CharacterSelectView(String playerName){
@@ -62,7 +61,7 @@ public class CharacterSelectView extends JFrame implements ActionListener {
 			}
 		}	
 		if (playerSelectNum == 1){
-			CLOGameClient c = new CLOGameClient(selection);
+			new CLOGameClient(selection);
 			dispose();
 		}
 	}
