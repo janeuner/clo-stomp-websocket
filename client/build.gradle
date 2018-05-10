@@ -1,10 +1,12 @@
 apply plugin: 'application'
 
-mainClassName = 'us.neuner.clo.client.CLOGameClient'
+//mainClassName = 'us.neuner.clo.client.CLOGameClient'
+mainClassName = 'us.neuner.clo.client.IntroductionUI'
 
 jar {
     manifest {
-      attributes 'Main-Class': 'us.neuner.clo.client.CLOGameClient'
+      //attributes 'Main-Class': 'us.neuner.clo.client.CLOGameClient'
+      attributes 'Main-Class': 'us.neuner.clo.client.IntroductionUI'
     }
     baseName = 'clo-swing-client'
     version =  '0.0.1'
