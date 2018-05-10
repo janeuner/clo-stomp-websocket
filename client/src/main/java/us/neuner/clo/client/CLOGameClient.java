@@ -151,7 +151,7 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 		add(suggestView);
 		add(playerView);
 
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\CLO\\ClientGUI\\Board Resized.jpeg"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/ClientGUI/Board Resized.jpeg")));
 		setSize(800, 810);
 		setResizable(false);
 		setName("CLO GameClient");

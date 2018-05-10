@@ -18,10 +18,12 @@ public class PlayerView extends JTabbedPane implements ChangeListener {
 
 	/**
 	 * serialization class version number
-	 * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html">java.io.Serializable</a>
+	 * 
+	 * @see <a href=
+	 *      "https://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html">java.io.Serializable</a>
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private JLabel playerView;
 	private JPanel handTab;
 	private JPanel playerTab, playerArea;
@@ -30,10 +32,12 @@ public class PlayerView extends JTabbedPane implements ChangeListener {
 
 	private JButton[] hand;
 
-	private final ImageIcon BACK_IMAGE = new ImageIcon("C:\\CLO\\ClientGUI\\Cardback.jpg");
-	private final ImageIcon PAPER = new ImageIcon("C:\\CLO\\ClientGUI\\Paper.jpg");
-	private final ImageIcon CARD_TAB_ICON = new ImageIcon("C:\\CLO\\ClientGUI\\CardIcon Small.png");
-	private final ImageIcon CONSOLE_TAB_ICON = new ImageIcon("C:\\CLO\\ClientGUI\\SpeechIcon Small.png");
+	private final ImageIcon BACK_IMAGE = new ImageIcon(this.getClass().getResource("/img/ClientGUI/Cardback.jpg"));
+	private final ImageIcon PAPER = new ImageIcon(this.getClass().getResource("/img/ClientGUI/Paper.jpg"));
+	private final ImageIcon CARD_TAB_ICON = new ImageIcon(
+			this.getClass().getResource("/img/ClientGUI/CardIcon Small.png"));
+	private final ImageIcon CONSOLE_TAB_ICON = new ImageIcon(
+			this.getClass().getResource("/img/ClientGUI/SpeechIcon Small.png"));
 
 	private PlayerDetail player;
 

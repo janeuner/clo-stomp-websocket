@@ -3,6 +3,7 @@ package us.neuner.clo.client;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -18,7 +19,8 @@ public class GameBoardView extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private final ImageIcon boardImage = new ImageIcon("C:\\CLO\\ClientGUI\\Board Resized.jpeg");
+	private final URL boardImageUrl = this.getClass().getResource("/img/ClientGUI/Board Resized.jpeg");
+	private final ImageIcon boardImage = new ImageIcon(boardImageUrl);
 	private JLabel board = new JLabel();
 
 	private ArrayList<JLabel> gamePiece = new ArrayList<JLabel>();

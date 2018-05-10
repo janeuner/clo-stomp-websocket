@@ -1,10 +1,13 @@
 package us.neuner.clo.client;
 
+import java.net.URL;
+
 import javax.swing.ImageIcon;
 
 public class PlayerInfo {
 private String playerName;
 private GameEntityID pieceName;
+private URL imageUrl;
 private ImageIcon image;
 private GameEntityID card;
 private GameEntityID room;
@@ -18,35 +21,67 @@ public PlayerInfo (String name, GameEntityID piece){
 	
 	switch (piece.getName()){
 		case "Miss Scarlet":
-			this.image = new ImageIcon("C:\\CLO\\Gamepieces\\Scarlet Piece.png");
+			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Scarlet Piece.png");
+			this.image = new ImageIcon(this.imageUrl);
 			this.room = GameEntityID.BALLROOM;
 		case "Mr Green":
-			this.image = new ImageIcon("C:\\CLO\\Gamepieces\\Green Piece.png");
+			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Green Piece.png");
+			this.image = new ImageIcon(this.imageUrl);
 			this.room = GameEntityID.BILLIARD;
 		case "Prof Plum":
-			this.image = new ImageIcon("C:\\CLO\\Gamepieces\\Plum Piece.png");
+			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Plum Piece.png");
+			this.image = new ImageIcon(this.imageUrl);
 			this.room = GameEntityID.STUDY;
 		case "Mrs Peacock":
-			this.image = new ImageIcon("C:\\CLO\\Gamepieces\\Peacock Piece.png");	
+			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Peacock Piece.png");
+			this.image = new ImageIcon(this.imageUrl);	
 			this.room = GameEntityID.CONSERVATORY;
 		case "Col Mustard":
-			this.image = new ImageIcon("C:\\CLO\\Gamepieces\\Mustard Piece.png");
+			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Mustard Piece.png");
+			this.image = new ImageIcon(this.imageUrl);
 			this.room = GameEntityID.LOUNGE;
 		case "Mrs White":
-			this.image = new ImageIcon("C:\\CLO\\Gamepieces\\White Piece.png");
+			this.imageUrl = this.getClass().getResource("/img/Gamepieces/White Piece.png");
+			this.image = new ImageIcon(this.imageUrl);
 			this.room = GameEntityID.KITCHEN;
 	}
 	
 }
 
-public GameEntityID getPiece(){return pieceName;}
-public GameEntityID getCard(){return card;}
-public GameEntityID getRoom(){return room;}
-public String getPlayerName(){return playerName;}
-public void setActive(){active = true;}
-public boolean getActive(){return active;}
-public void setAccused(){hasAccused = true;}
-public boolean getAccused(){return hasAccused;}
-public ImageIcon getImage(){return image;}
-
+	public GameEntityID getPiece() {
+		return pieceName;
+	}
+	
+	public GameEntityID getCard() {
+		return card;
+	}
+	
+	public GameEntityID getRoom() {
+		return room;
+	}
+	
+	public String getPlayerName() {
+		return playerName;
+	}
+	
+	public void setActive() {
+		active = true;
+	}
+	
+	public boolean getActive() {
+		return active;
+	}
+	
+	public void setAccused() {
+		hasAccused = true;
+	}
+	
+	public boolean getAccused() {
+		return hasAccused;
+	}
+	
+	public ImageIcon getImage() {
+		return image;
+	}
+	
 }
