@@ -6,16 +6,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class PlayerDetail {
-	private String msid;
 	private GameEntityID playerIcon;
 	private PlayerInfo player;
 	private ArrayList<GameEntityID> hand = new ArrayList<GameEntityID>();
 	private Movement movement;
 	private JLabel gamePiece;
 	private int playerNum;
-	private boolean hasMoved;
-	
-	
 	
 	public PlayerDetail(int num, ArrayList<GameEntityID> hand, PlayerInfo player){
 		playerIcon = player.getCard();
@@ -77,7 +73,6 @@ public class PlayerDetail {
 					location = destination;
 					destination = null;
 					stepsToLocation = 0;
-					hasMoved = true;
 			 }else{
 				 if(isInRoom()) {
 						moveToHallway();
@@ -85,7 +80,6 @@ public class PlayerDetail {
 				
 					location = null;
 					stepsToLocation -= movement;
-					hasMoved = true;
 				}
 			 }
 		 

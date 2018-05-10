@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import java.awt.Toolkit;
@@ -24,27 +23,13 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private final ImageIcon boardImage = new ImageIcon("C:\\Users\\bitchnuts\\workspace\\CLO\\Board Resized.jpeg");
 	public static int WIDTH = 1200, HEIGHT = 1200;
-	private ChatView chatView = new ChatView();
 	private GameBoardView gameBoardView;
 	private PlayerView playerView;
-	private AccuseView accuseView;
 	private SuggestView suggestView;
-	private DisproveView disproveView;
-
-	private int turn; // Current turn number.
-	private boolean canMove; // Conditional affecting whether new room is selectable.
-	private boolean inDisprove; // Conditional affecting whether disproval sequence is initiated.
-	private boolean inAccuse; // Conditional affecting whether accusation sequence is initiated.
-	private boolean turnToggle; // Conditional affecting beginning of a new turn.
-	private boolean humanTurn; // Conditional determining whether action is human or AI.
-
 	private PlayerDetail player1; // All players in the game.
 
 	private GameEntityID[] envelope; // Array containing the mystery answer.
-	private GameEntityID[] accusation; // Array containing the accusers guess at answer.
-
 	private ArrayList<GameEntityID> weapons;
 	private ArrayList<GameEntityID> rooms;
 	private ArrayList<GameEntityID> suspects;
@@ -149,16 +134,8 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 
 	public CLOGameClient(PlayerInfo player) {
 		super("CLOGameClient");
-		canMove = true;
-		inDisprove = false;
-		inAccuse = false;
-		humanTurn = true;
-		turnToggle = false;
-		turn = 0;
-
 		buildDeck();
 
-		accusation = new GameEntityID[3];
 		createEnvelope();
 
 		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 1));
@@ -194,7 +171,7 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 	public static void main(String[] args) throws Exception {
 		try {
 			PlayerInfo p = new PlayerInfo("null", GameEntityID.SCARLET);
-			CLOGameClient c1 = new CLOGameClient(p);
+			new CLOGameClient(p);
 
 		} catch (Exception e) {
 			e.printStackTrace();
