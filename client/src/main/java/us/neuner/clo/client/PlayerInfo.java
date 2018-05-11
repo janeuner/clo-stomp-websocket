@@ -6,15 +6,15 @@ import javax.swing.ImageIcon;
 
 public class PlayerInfo {
 private String playerName;
-private GameEntityID pieceName;
+private GameEntityGraphic pieceName;
 private URL imageUrl;
 private ImageIcon image;
-private GameEntityID card;
-private GameEntityID room;
+private GameEntityGraphic card;
+private GameEntityGraphic room;
 private boolean active;
 private boolean hasAccused;
 
-public PlayerInfo (String name, GameEntityID piece){
+public PlayerInfo (String name, GameEntityGraphic piece){
 	this.playerName = name;
 	this.pieceName = piece;
 	this.card = piece;
@@ -23,40 +23,40 @@ public PlayerInfo (String name, GameEntityID piece){
 		case "Miss Scarlet":
 			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Scarlet Piece.png");
 			this.image = new ImageIcon(this.imageUrl);
-			this.room = GameEntityID.BALLROOM;
+			this.room = GameEntityGraphic.BALLROOM;
 		case "Mr Green":
 			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Green Piece.png");
 			this.image = new ImageIcon(this.imageUrl);
-			this.room = GameEntityID.BILLIARD;
+			this.room = GameEntityGraphic.BILLIARD;
 		case "Prof Plum":
 			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Plum Piece.png");
 			this.image = new ImageIcon(this.imageUrl);
-			this.room = GameEntityID.STUDY;
+			this.room = GameEntityGraphic.STUDY;
 		case "Mrs Peacock":
 			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Peacock Piece.png");
 			this.image = new ImageIcon(this.imageUrl);	
-			this.room = GameEntityID.CONSERVATORY;
+			this.room = GameEntityGraphic.CONSERVATORY;
 		case "Col Mustard":
 			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Mustard Piece.png");
 			this.image = new ImageIcon(this.imageUrl);
-			this.room = GameEntityID.LOUNGE;
+			this.room = GameEntityGraphic.LOUNGE;
 		case "Mrs White":
 			this.imageUrl = this.getClass().getResource("/img/Gamepieces/White Piece.png");
 			this.image = new ImageIcon(this.imageUrl);
-			this.room = GameEntityID.KITCHEN;
+			this.room = GameEntityGraphic.KITCHEN;
 	}
 	
 }
 
-	public GameEntityID getPiece() {
+	public GameEntityGraphic getPiece() {
 		return pieceName;
 	}
 	
-	public GameEntityID getCard() {
+	public GameEntityGraphic getCard() {
 		return card;
 	}
 	
-	public GameEntityID getRoom() {
+	public GameEntityGraphic getRoom() {
 		return room;
 	}
 	

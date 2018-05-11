@@ -43,9 +43,9 @@ public class PlayerView extends JTabbedPane implements ChangeListener {
 	// components for making a suggestion
 	private JLabel suspectAssumption, weaponAssumption, roomAssumption;
 	private JPanel suggestArea;
-	private GameEntityID weaponAssumptionCard;
-	private GameEntityID suspectAssumptionCard;
-	private GameEntityID roomAssumptionCard;
+	private GameEntityGraphic weaponAssumptionCard;
+	private GameEntityGraphic suspectAssumptionCard;
+	private GameEntityGraphic roomAssumptionCard;
 
 	public PlayerView(PlayerDetail player) {
 		this.player = player;
@@ -85,7 +85,7 @@ public class PlayerView extends JTabbedPane implements ChangeListener {
 
 		hand = new JButton[6];
 		for (int i = 0; i < hand.length; i++) {
-			GameEntityID card = player.getHand().get(i);
+			GameEntityGraphic card = player.getHand().get(i);
 			hand[i] = new JButton();
 			hand[i].setIcon(card.getImage());
 			handTab.add(hand[i]);
@@ -110,30 +110,30 @@ public class PlayerView extends JTabbedPane implements ChangeListener {
 		return hand;
 	}
 
-	public void setWeaponAssumption(GameEntityID assumption) {
+	public void setWeaponAssumption(GameEntityGraphic assumption) {
 		weaponAssumptionCard = assumption;
 		weaponAssumption.setIcon(assumption.getImage());
 	}
 
-	public void setSuspectAssumption(GameEntityID assumption) {
+	public void setSuspectAssumption(GameEntityGraphic assumption) {
 		suspectAssumptionCard = assumption;
 		suspectAssumption.setIcon(assumption.getImage());
 	}
 
-	public void setRoomAssumption(GameEntityID assumption) {
+	public void setRoomAssumption(GameEntityGraphic assumption) {
 		roomAssumptionCard = assumption;
 		roomAssumption.setIcon(assumption.getImage());
 	}
 
-	public GameEntityID getWeaponAssumption() {
+	public GameEntityGraphic getWeaponAssumption() {
 		return weaponAssumptionCard;
 	}
 
-	public GameEntityID getSuspectAssumption() {
+	public GameEntityGraphic getSuspectAssumption() {
 		return suspectAssumptionCard;
 	}
 
-	public GameEntityID getRoomAssumption() {
+	public GameEntityGraphic getRoomAssumption() {
 		return roomAssumptionCard;
 	}
 
@@ -159,11 +159,11 @@ public class PlayerView extends JTabbedPane implements ChangeListener {
 		roomAssumption.setIcon(BACK_IMAGE);
 	}
 
-	public void highlightDisprovables(ArrayList<GameEntityID> guess) {
+	public void highlightDisprovables(ArrayList<GameEntityGraphic> guess) {
 		setSelectedIndex(0);
 
 		for (int i = 0; i < player.getHand().size(); i++) {
-			GameEntityID check = player.getHand().get(i);
+			GameEntityGraphic check = player.getHand().get(i);
 			if (!guess.contains(check))
 				hand[i].setEnabled(false);
 		}
@@ -176,7 +176,7 @@ public class PlayerView extends JTabbedPane implements ChangeListener {
 	 * @param card
 	 *            Card used to disprove player's assumption.
 	 */
-	public void highlightDisproval(GameEntityID card) {
+	public void highlightDisproval(GameEntityGraphic card) {
 		if (card.getType() == 1) {
 			suspectAssumption.setEnabled(false);
 			roomAssumption.setEnabled(false);

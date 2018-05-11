@@ -17,7 +17,7 @@ public class CharacterSelectView extends JFrame implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private ArrayList<GameEntityID> characters;
+	private ArrayList<GameEntityGraphic> characters;
 	private ArrayList<JButton> charButtons; 
 	private PlayerInfo selection;
 	private int playerSelectNum;
@@ -27,11 +27,11 @@ public class CharacterSelectView extends JFrame implements ActionListener {
 		JPanel displayBox = new JPanel (new GridLayout(2, 3, 5, 5));
 		this.name = playerName;
 		
-		characters = new ArrayList<GameEntityID>(6);
+		characters = new ArrayList<GameEntityGraphic>(6);
 		charButtons = new ArrayList<JButton>(6);
 		playerSelectNum = 0;
 		
-		for (GameEntityID gamePiece: GameEntityID.getSuspects()){
+		for (GameEntityGraphic gamePiece: GameEntityGraphic.getSuspects()){
 			JButton option = new JButton();
 			option.setIcon(gamePiece.getImage());
 			option.addActionListener(this);

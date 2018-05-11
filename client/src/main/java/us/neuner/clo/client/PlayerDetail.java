@@ -6,14 +6,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class PlayerDetail {
-	private GameEntityID playerIcon;
+	private GameEntityGraphic playerIcon;
 	private PlayerInfo player;
-	private ArrayList<GameEntityID> hand = new ArrayList<GameEntityID>();
+	private ArrayList<GameEntityGraphic> hand = new ArrayList<GameEntityGraphic>();
 	private Movement movement;
 	private JLabel gamePiece;
 	private int playerNum;
 	
-	public PlayerDetail(int num, ArrayList<GameEntityID> hand, PlayerInfo player){
+	public PlayerDetail(int num, ArrayList<GameEntityGraphic> hand, PlayerInfo player){
 		playerIcon = player.getCard();
 		this.gamePiece = new JLabel();
 		this.gamePiece.setIcon(player.getImage());
@@ -23,22 +23,22 @@ public class PlayerDetail {
 	}
 	public Movement getMovement(){return movement;}
 	public int getPlayerNum(){return playerNum;}
-	public ArrayList<GameEntityID> getHand(){return this.hand;}
-	public GameEntityID getPlayerIcon(){return playerIcon;}
+	public ArrayList<GameEntityGraphic> getHand(){return this.hand;}
+	public GameEntityGraphic getPlayerIcon(){return playerIcon;}
 	public String getPlayerName(){return player.getPlayerName();}
 	public ImageIcon getPlayerImage(){return playerIcon.getImage();}
 	public JLabel getGamePiece(){return this.gamePiece;}
 	
 	
 	public class Movement {
-		 private GameEntityID destination;
-		 private GameEntityID location;
+		 private GameEntityGraphic destination;
+		 private GameEntityGraphic location;
 		 private int stepsToLocation;
 		 private int playerNum;
 		 private JLabel gamePiece;
 		 
 		
-		 public Movement(GameEntityID start, JLabel gamePiece, int playerNum){
+		 public Movement(GameEntityGraphic start, JLabel gamePiece, int playerNum){
 			 this.gamePiece = gamePiece;
 			 this.destination = null;
 			 this.location = start; 
@@ -46,15 +46,15 @@ public class PlayerDetail {
 			 stepsToLocation = 0;
 		 }
 		
-		 public GameEntityID getDestination(){return destination;}
-		 public GameEntityID getLocation(){return location;}
+		 public GameEntityGraphic getDestination(){return destination;}
+		 public GameEntityGraphic getLocation(){return location;}
 		 public int getXPos(){return location.getXPos() + 23*playerNum;}
 		 public int getYPos(){return location.getYPos();}
 		 
 		 
 		 
-		 public void setDestination(GameEntityID destination){this.destination = destination;}
-		 public void setLocation(GameEntityID location){this.location = location;}
+		 public void setDestination(GameEntityGraphic destination){this.destination = destination;}
+		 public void setLocation(GameEntityGraphic location){this.location = location;}
 		 
 		 public void setDistance(){
 			 if (destination.getPosition().distance(location.getPosition())/20 >=12){
@@ -84,13 +84,13 @@ public class PlayerDetail {
 			 }
 		 
 		 public void moveToHallway(){
-			 GameEntityID nearest = GameEntityID.HALL_A;
+			 GameEntityGraphic nearest = GameEntityGraphic.HALL_A;
 			 
 			 double nearestValue = location.getPosition().distance(nearest.getPosition())
 						+ destination.getPosition().distance(nearest.getPosition());
 
 				
-				for(GameEntityID pass : GameEntityID.values()) {
+				for(GameEntityGraphic pass : GameEntityGraphic.values()) {
 					double nextValue = location.getPosition().distance(pass.getPosition())
 							+ destination.getPosition().distance(pass.getPosition());
 
@@ -106,8 +106,8 @@ public class PlayerDetail {
 		 public boolean isInRoom(){
 			 return location!=null;
 		 }
-		 public GameEntityID getEqRoom(){
-			 for (GameEntityID card: GameEntityID.values()){
+		 public GameEntityGraphic getEqRoom(){
+			 for (GameEntityGraphic card: GameEntityGraphic.values()){
 				 if (card.getName().equals(location.getName())){
 					 return card;
 				 }

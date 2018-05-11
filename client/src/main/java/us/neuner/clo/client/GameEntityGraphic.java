@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-public enum GameEntityID {
+public enum GameEntityGraphic {
 	STUDY(new Area(new Rectangle(40,50,160,90)), 55, 75, "Study"),
 	LIBRARY(new Area(new Rectangle(40,180,160,100)), 55, 215, "Library"),
 	BILLIARD(new Area(new Rectangle(40,300,140,105)), 55, 340, "Billiard Room"),
@@ -68,7 +68,7 @@ public enum GameEntityID {
 	private int yposition;
 	private Point position;
 	
-	GameEntityID(String name, Area boundary, int xposition, int yposition) {
+	GameEntityGraphic(String name, Area boundary, int xposition, int yposition) {
 		this.boundary = boundary;
 		this.xposition = xposition;
 		this.yposition = yposition;
@@ -78,7 +78,7 @@ public enum GameEntityID {
 		this.type = 0;
 	}
 		
-	GameEntityID(String name, int type){
+	GameEntityGraphic(String name, int type){
 		this.name = name;
 		this.type = type;
 		switch (type){
@@ -101,7 +101,7 @@ public enum GameEntityID {
 		
 	}
 	
-	GameEntityID(Area boundary, int xposition, int yposition, String name) {
+	GameEntityGraphic(Area boundary, int xposition, int yposition, String name) {
 		this.boundary = boundary;
 		this.xposition = xposition;
 		this.yposition = yposition;
@@ -109,13 +109,13 @@ public enum GameEntityID {
 		this.name = name;
 	}
 	
-	GameEntityID(int xposition, int yposition){
+	GameEntityGraphic(int xposition, int yposition){
 		this.position = new Point(xposition, yposition);
 	}
 	
-	public static ArrayList<GameEntityID> getSuspects() {
-		ArrayList<GameEntityID> suspects; 
-		suspects = new ArrayList<GameEntityID>();
+	public static ArrayList<GameEntityGraphic> getSuspects() {
+		ArrayList<GameEntityGraphic> suspects; 
+		suspects = new ArrayList<GameEntityGraphic>();
 		suspects.add(SCARLET);
 		suspects.add(GREEN);
 		suspects.add(PLUM);
@@ -125,9 +125,9 @@ public enum GameEntityID {
 		return suspects;
 	}
 
-	public static ArrayList<GameEntityID> getRooms(){
-		ArrayList<GameEntityID> rooms;
-		rooms = new ArrayList<GameEntityID>();
+	public static ArrayList<GameEntityGraphic> getRooms(){
+		ArrayList<GameEntityGraphic> rooms;
+		rooms = new ArrayList<GameEntityGraphic>();
 		rooms.add(Study);
 		rooms.add(Library);
 		rooms.add(Billiard);
@@ -141,9 +141,9 @@ public enum GameEntityID {
 		
 	}
 	
-	public static ArrayList<GameEntityID> getWeapons(){
-		ArrayList<GameEntityID> weapons;
-		weapons = new ArrayList<GameEntityID>();
+	public static ArrayList<GameEntityGraphic> getWeapons(){
+		ArrayList<GameEntityGraphic> weapons;
+		weapons = new ArrayList<GameEntityGraphic>();
 		weapons.add(KNIFE);
 		weapons.add(ROPE);
 		weapons.add(CANDLESTICK);
@@ -154,9 +154,9 @@ public enum GameEntityID {
 		return weapons;
 	}
 
-	public static ArrayList<GameEntityID> getCards(){
-		ArrayList<GameEntityID> cards;
-		cards = new ArrayList<GameEntityID>();
+	public static ArrayList<GameEntityGraphic> getCards(){
+		ArrayList<GameEntityGraphic> cards;
+		cards = new ArrayList<GameEntityGraphic>();
 		
 		//weapons
 		cards.add(KNIFE);

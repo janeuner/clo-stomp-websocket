@@ -79,7 +79,7 @@ public class SuggestView extends JPanel implements ChangeListener {
 
 	}
 
-	public void changeTurnIndicator(GameEntityID nextPlayer) {
+	public void changeTurnIndicator(GameEntityGraphic nextPlayer) {
 		playerInfo.setBorder(BorderFactory.createTitledBorder(nextPlayer.getName() + "'s Turn:"));
 		playerInfo.setIcon(nextPlayer.getImage());
 	}

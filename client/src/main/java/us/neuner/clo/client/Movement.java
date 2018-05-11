@@ -5,14 +5,14 @@ import java.awt.Point;
 import javax.swing.JLabel;
 
 public class Movement {
-	 private GameEntityID destination;
-	 private GameEntityID location;
+	 private GameEntityGraphic destination;
+	 private GameEntityGraphic location;
 	 private int stepsToLocation;
 	 private int playerNum;
 	 private JLabel gamePiece;
 	 
 	
-	 public Movement(GameEntityID start, JLabel gamePiece, int playerNum){
+	 public Movement(GameEntityGraphic start, JLabel gamePiece, int playerNum){
 		 this.gamePiece = gamePiece;
 		 this.destination = null;
 		 this.location = start; 
@@ -20,14 +20,14 @@ public class Movement {
 		 stepsToLocation = 0;
 	 }
 	
-	 public GameEntityID getDestination(){return destination;}
-	 public GameEntityID getLocation(){return location;}
+	 public GameEntityGraphic getDestination(){return destination;}
+	 public GameEntityGraphic getLocation(){return location;}
 	 public int getXPos(){return location.getXPos() + 23*playerNum;}
 	 public int getYPos(){return location.getYPos();}
 	 
 	 
-	 public void setDestination(GameEntityID destination){this.destination = destination;}
-	 public void setLocation(GameEntityID location){this.location = location;}
+	 public void setDestination(GameEntityGraphic destination){this.destination = destination;}
+	 public void setLocation(GameEntityGraphic location){this.location = location;}
 	 
 	 public void setDistance(){
 		 if (destination.getPosition().distance(location.getPosition())/20 >=12){
@@ -57,13 +57,13 @@ public class Movement {
 		 }
 	 
 	 public void moveToHallway(){
-		 GameEntityID nearest = GameEntityID.HALL_A;
+		 GameEntityGraphic nearest = GameEntityGraphic.HALL_A;
 		 
 		 double nearestValue = location.getPosition().distance(nearest.getPosition())
 					+ destination.getPosition().distance(nearest.getPosition());
 
 			//Check all passageways for closest.
-			for(GameEntityID pass : GameEntityID.values()) {
+			for(GameEntityGraphic pass : GameEntityGraphic.values()) {
 				double nextValue = location.getPosition().distance(pass.getPosition())
 						+ destination.getPosition().distance(pass.getPosition());
 
@@ -79,8 +79,8 @@ public class Movement {
 	 public boolean isInRoom(){
 		 return location!=null;
 	 }
-	 public GameEntityID getEqRoom(){
-		 for (GameEntityID card: GameEntityID.values()){
+	 public GameEntityGraphic getEqRoom(){
+		 for (GameEntityGraphic card: GameEntityGraphic.values()){
 			 if (card.getName().equals(location.getName())){
 				 return card;
 			 }

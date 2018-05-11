@@ -29,15 +29,15 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 	private SuggestView suggestView;
 	private PlayerDetail player1; // All players in the game.
 
-	private GameEntityID[] envelope; // Array containing the mystery answer.
-	private ArrayList<GameEntityID> weapons;
-	private ArrayList<GameEntityID> rooms;
-	private ArrayList<GameEntityID> suspects;
+	private GameEntityGraphic[] envelope; // Array containing the mystery answer.
+	private ArrayList<GameEntityGraphic> weapons;
+	private ArrayList<GameEntityGraphic> rooms;
+	private ArrayList<GameEntityGraphic> suspects;
 
 	public void buildDeck() { // initializes and shuffles the playing cards.
-		weapons = GameEntityID.getWeapons();
-		rooms = GameEntityID.getRooms();
-		suspects = GameEntityID.getSuspects();
+		weapons = GameEntityGraphic.getWeapons();
+		rooms = GameEntityGraphic.getRooms();
+		suspects = GameEntityGraphic.getSuspects();
 
 		Collections.shuffle(weapons);
 		Collections.shuffle(rooms);
@@ -45,17 +45,17 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 	}
 
 	public void createEnvelope() {
-		envelope = new GameEntityID[3];
+		envelope = new GameEntityGraphic[3];
 		envelope[0] = drawWeapon();
 		envelope[1] = drawRoom();
 		envelope[2] = drawSuspect();
 
 	}
 
-	public GameEntityID drawWeapon() {
+	public GameEntityGraphic drawWeapon() {
 
 		try {
-			GameEntityID drawn = weapons.get(0); // Shallow copy of Card.
+			GameEntityGraphic drawn = weapons.get(0); // Shallow copy of Card.
 			weapons.remove(0); // Remove Card from container.
 			return drawn; // Return Card.
 		}
@@ -67,9 +67,9 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 
 	}
 
-	public GameEntityID drawSuspect() {
+	public GameEntityGraphic drawSuspect() {
 		try {
-			GameEntityID drawn = suspects.get(0); // Shallow copy of Card.
+			GameEntityGraphic drawn = suspects.get(0); // Shallow copy of Card.
 			suspects.remove(0); // Remove Card from container.
 			return drawn; // Return Card.
 		}
@@ -80,9 +80,9 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 		}
 	}
 
-	public GameEntityID drawRoom() {
+	public GameEntityGraphic drawRoom() {
 		try {
-			GameEntityID drawn = rooms.get(0); // Shallow copy of Card.
+			GameEntityGraphic drawn = rooms.get(0); // Shallow copy of Card.
 			rooms.remove(0); // Remove Card from container.
 			return drawn; // Return Card.
 		}
@@ -93,8 +93,8 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 		}
 	}
 
-	public ArrayList<GameEntityID> dealHand() {
-		ArrayList<GameEntityID> hand = new ArrayList<GameEntityID>();
+	public ArrayList<GameEntityGraphic> dealHand() {
+		ArrayList<GameEntityGraphic> hand = new ArrayList<GameEntityGraphic>();
 		for (int i = 1; i <= 6; i++) {
 			hand.add(drawCard());
 		}
@@ -105,9 +105,9 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 		return (weapons.isEmpty() && rooms.isEmpty() && suspects.isEmpty());
 	}
 
-	public GameEntityID drawCard() {
+	public GameEntityGraphic drawCard() {
 
-		GameEntityID toReturn = null;
+		GameEntityGraphic toReturn = null;
 
 		while (toReturn == null && !allEmpty()) {
 			Random ran = new Random();
@@ -170,7 +170,7 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 
 	public static void main(String[] args) throws Exception {
 		try {
-			PlayerInfo p = new PlayerInfo("null", GameEntityID.SCARLET);
+			PlayerInfo p = new PlayerInfo("null", GameEntityGraphic.SCARLET);
 			new CLOGameClient(p);
 
 		} catch (Exception e) {

@@ -23,11 +23,11 @@ public class AccuseView extends JFrame implements ActionListener {
 	private final JComboBox<String> personBox, weaponBox;
 	private final JButton button;
 
-	private GameEntityID[] guess; // Container for inputs chosen by player.
+	private GameEntityGraphic[] guess; // Container for inputs chosen by player.
 
-	public AccuseView(String title, ArrayList<GameEntityID> hand) {
+	public AccuseView(String title, ArrayList<GameEntityGraphic> hand) {
 
-		guess = new GameEntityID[2];
+		guess = new GameEntityGraphic[2];
 		JPanel panel = new JPanel();
 		personBox = new JComboBox<String>();
 		weaponBox = new JComboBox<String>();
@@ -37,14 +37,14 @@ public class AccuseView extends JFrame implements ActionListener {
 		panel.add(weaponBox);
 		panel.add(button);
 
-		for (GameEntityID card : GameEntityID.getCards()) {
+		for (GameEntityGraphic card : GameEntityGraphic.getCards()) {
 			if (card.getType() == 1 && !hand.contains(card))
 				weaponBox.addItem(card.getName());
 			if (card.getType() == 3 && !hand.contains(card))
 				personBox.addItem(card.getName());
 		}
 
-		for (GameEntityID card : GameEntityID.getCards()) {
+		for (GameEntityGraphic card : GameEntityGraphic.getCards()) {
 			if (weaponBox.getItemAt(0).equals(card.getName()))
 				guess[1] = card;
 			if (personBox.getItemAt(0).equals(card.getName()))
@@ -65,11 +65,11 @@ public class AccuseView extends JFrame implements ActionListener {
 		weaponBox.addActionListener(this);
 	}
 
-	public GameEntityID getSuspectGuess() {
+	public GameEntityGraphic getSuspectGuess() {
 		return guess[0];
 	}
 
-	public GameEntityID getWeaponGuess() {
+	public GameEntityGraphic getWeaponGuess() {
 		return guess[1];
 	}
 
@@ -80,7 +80,7 @@ public class AccuseView extends JFrame implements ActionListener {
 	/** Action Listener assigns values to guess based off of user input. */
 	public void actionPerformed(ActionEvent e) {
 
-		for (GameEntityID card : GameEntityID.getCards()) {
+		for (GameEntityGraphic card : GameEntityGraphic.getCards()) {
 
 			// Suspect Guess Selected.
 			if (card.getName().equals(personBox.getSelectedItem()))

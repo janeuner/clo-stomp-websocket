@@ -36,7 +36,7 @@ public class NotebookView extends JFrame implements ChangeListener, ActionListen
 		locationsTab = new JPanel(new GridLayout(3, 3, 5, 5));
 
 		// Populate panels.
-		for (GameEntityID card : GameEntityID.getCards()) {
+		for (GameEntityGraphic card : GameEntityGraphic.getCards()) {
 			JToggleButton button = new JToggleButton();
 			button.setIcon(card.getImage());
 			button.setSelectedIcon(cardBack);
