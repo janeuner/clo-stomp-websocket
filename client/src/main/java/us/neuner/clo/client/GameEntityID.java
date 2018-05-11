@@ -59,15 +59,7 @@ public enum GameEntityID {
     MrsPeacockStart("Peacock Piece", new Area(new Rectangle(40,455,140,110)), 55, 490),
 	ProfPlumStart("Plum Piece", new Area(new Rectangle(40,50,160,90)), 55, 75);
     
-    ;
-	
 	private String name;
-	private static ArrayList<GameEntityID> suspects; 
-	private static ArrayList<GameEntityID> rooms;
-	private static ArrayList<GameEntityID> weapons;
-	private static ArrayList<GameEntityID> cards;
-	
-	
 	private int type;
 	private URL imageUrl;
 	private ImageIcon image;
@@ -83,6 +75,7 @@ public enum GameEntityID {
 		this.name = name;
 		this.imageUrl = this.getClass().getResource("/img/Gamepieces/" + name + ".png");
 		this.image = new ImageIcon(this.imageUrl);
+		this.type = 0;
 	}
 		
 	GameEntityID(String name, int type){
@@ -105,6 +98,7 @@ public enum GameEntityID {
 				assert(false);
 		}
 		image = new ImageIcon(this.imageUrl);
+		
 	}
 	
 	GameEntityID(Area boundary, int xposition, int yposition, String name) {
@@ -120,6 +114,7 @@ public enum GameEntityID {
 	}
 	
 	public static ArrayList<GameEntityID> getSuspects() {
+		ArrayList<GameEntityID> suspects; 
 		suspects = new ArrayList<GameEntityID>();
 		suspects.add(SCARLET);
 		suspects.add(GREEN);
@@ -128,25 +123,37 @@ public enum GameEntityID {
 		suspects.add(MUSTARD);
 		suspects.add(WHITE);
 		return suspects;
-	
 	}
 
 	public static ArrayList<GameEntityID> getRooms(){
+		ArrayList<GameEntityID> rooms;
 		rooms = new ArrayList<GameEntityID>();
-		rooms.add(STUDY);
-		rooms.add(LIBRARY);
+//		rooms.add(STUDY);
+//		rooms.add(LIBRARY);
+//		rooms.add(Billiard);
+//		rooms.add(CONSERVATORY);
+//		rooms.add(HALL);
+//		rooms.add(BALLROOM);
+//		rooms.add(LOUNGE);
+//		rooms.add(DININGROOM);
+//		rooms.add(KITCHEN);
+		
+		rooms.add(Study);
+		rooms.add(Library);
 		rooms.add(Billiard);
-		rooms.add(CONSERVATORY);
-		rooms.add(HALL);
-		rooms.add(BALLROOM);
-		rooms.add(LOUNGE);
-		rooms.add(DININGROOM);
-		rooms.add(KITCHEN);
+		rooms.add(Conservatory);
+		rooms.add(Hall);
+		rooms.add(Ballroom);
+		rooms.add(Lounge);
+		rooms.add(DiningRoom);
+		rooms.add(Kitchen);
+
 		return rooms;
 		
 	}
 	
 	public static ArrayList<GameEntityID> getWeapons(){
+		ArrayList<GameEntityID> weapons;
 		weapons = new ArrayList<GameEntityID>();
 		weapons.add(KNIFE);
 		weapons.add(ROPE);
@@ -159,6 +166,7 @@ public enum GameEntityID {
 	}
 
 	public static ArrayList<GameEntityID> getCards(){
+		ArrayList<GameEntityID> cards;
 		cards = new ArrayList<GameEntityID>();
 		
 		//weapons
