@@ -28,7 +28,6 @@ public class PlayerView extends JTabbedPane implements ChangeListener {
 	private JPanel handTab;
 	private JPanel playerTab, playerArea;
 	private JButton enterButton;
-	private JLabel title = new JLabel("PlayerView");
 
 	private JButton[] hand;
 
@@ -86,8 +85,9 @@ public class PlayerView extends JTabbedPane implements ChangeListener {
 
 		hand = new JButton[6];
 		for (int i = 0; i < hand.length; i++) {
+			GameEntityID card = player.getHand().get(i);
 			hand[i] = new JButton();
-			hand[i].setIcon(player.getHand().get(i).getImage());
+			hand[i].setIcon(card.getImage());
 			handTab.add(hand[i]);
 			hand[i].setVerticalAlignment(TOP);
 		}
@@ -96,7 +96,6 @@ public class PlayerView extends JTabbedPane implements ChangeListener {
 
 		addTab("", CARD_TAB_ICON, handTab);
 		addTab("", CONSOLE_TAB_ICON, playerTab);
-		add(title);
 		setBackgroundAt(0, Color.BLUE);
 		setBackgroundAt(1, Color.RED);
 		setTabLayoutPolicy(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
