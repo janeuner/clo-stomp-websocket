@@ -128,16 +128,6 @@ public enum GameEntityID {
 	public static ArrayList<GameEntityID> getRooms(){
 		ArrayList<GameEntityID> rooms;
 		rooms = new ArrayList<GameEntityID>();
-//		rooms.add(STUDY);
-//		rooms.add(LIBRARY);
-//		rooms.add(Billiard);
-//		rooms.add(CONSERVATORY);
-//		rooms.add(HALL);
-//		rooms.add(BALLROOM);
-//		rooms.add(LOUNGE);
-//		rooms.add(DININGROOM);
-//		rooms.add(KITCHEN);
-		
 		rooms.add(Study);
 		rooms.add(Library);
 		rooms.add(Billiard);
@@ -147,7 +137,6 @@ public enum GameEntityID {
 		rooms.add(Lounge);
 		rooms.add(DiningRoom);
 		rooms.add(Kitchen);
-
 		return rooms;
 		
 	}
