@@ -23,16 +23,21 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public static int WIDTH = 1200, HEIGHT = 1200;
+	
 	private GameBoardView gameBoardView;
 	private PlayerView playerView;
 	private SuggestView suggestView;
 	private PlayerDetail player1; // All players in the game.
+	private PlayerInfo playerInfo1;
+	private ChatView chatView
 
 	private GameEntityGraphic[] envelope; // Array containing the mystery answer.
 	private ArrayList<GameEntityGraphic> weapons;
 	private ArrayList<GameEntityGraphic> rooms;
 	private ArrayList<GameEntityGraphic> suspects;
+	
+	private JPanel p1 = new JPanel();
+	private JPanel p2 = new JPanel();
 
 	public void buildDeck() { // initializes and shuffles the playing cards.
 		weapons = GameEntityGraphic.getWeapons();
@@ -134,6 +139,7 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 
 	public CLOGameClient(PlayerInfo player) {
 		super("CLOGameClient");
+		this.playerInfo1 = player;
 		buildDeck();
 
 		createEnvelope();
@@ -141,18 +147,26 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 1));
 		setBackground(Color.BLACK);
 
-		player1 = new PlayerDetail(0, dealHand(), player);
+		player1 = new PlayerDetail(0, dealHand(), playerInfo1);
 
 		suggestView = new SuggestView(player1);
 		gameBoardView = new GameBoardView(player1);
 		playerView = new PlayerView(player1);
-
-		add(gameBoardView);
-		add(suggestView);
+		chatView = new ChatView(playerInfo1);
+		
+		p1.setLayout(new BorderLayout());
+		p1.add(suggestView, BorderLayout.NORTH);
+		p1.add(chatView, BorderLayout.SOUTH);
+		
+		p2.add(gameBoardView);
+		p2.add(p1);
+		p2.setLayout(new FlowLayout());
+		
+		add(p2);
 		add(playerView);
 
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/ClientGUI/Board Resized.jpeg")));
-		setSize(800, 810);
+		setSize(900, 1000);
 		setResizable(false);
 		setName("CLO GameClient");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

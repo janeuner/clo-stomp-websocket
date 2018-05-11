@@ -39,7 +39,7 @@ public class SuggestView extends JPanel implements ChangeListener {
 
 		playerInfo = new JLabel();
 		playerInfo.setIcon(player.getPlayerImage());
-		playerInfo.setBorder(BorderFactory.createTitledBorder(player.getName() + "'s Turn:"));
+		playerInfo.setBorder(BorderFactory.createTitledBorder(player.getPlayerName() + "'s Turn:"));
 		playerInfo.setHorizontalAlignment(SwingConstants.CENTER);
 
 		JPanel optionArea = new JPanel(new GridLayout(6, 1, 10, 2));
