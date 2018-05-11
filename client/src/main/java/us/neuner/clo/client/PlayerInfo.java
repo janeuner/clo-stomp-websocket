@@ -24,26 +24,32 @@ public PlayerInfo (String name, GameEntityGraphic piece){
 			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Scarlet Piece.png");
 			this.image = new ImageIcon(this.imageUrl);
 			this.room = GameEntityGraphic.BALLROOM;
+			break;
 		case "Mr Green":
 			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Green Piece.png");
 			this.image = new ImageIcon(this.imageUrl);
 			this.room = GameEntityGraphic.BILLIARD;
+			break;
 		case "Prof Plum":
 			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Plum Piece.png");
 			this.image = new ImageIcon(this.imageUrl);
 			this.room = GameEntityGraphic.STUDY;
+			break;
 		case "Mrs Peacock":
 			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Peacock Piece.png");
 			this.image = new ImageIcon(this.imageUrl);	
 			this.room = GameEntityGraphic.CONSERVATORY;
+			break;
 		case "Col Mustard":
 			this.imageUrl = this.getClass().getResource("/img/Gamepieces/Mustard Piece.png");
 			this.image = new ImageIcon(this.imageUrl);
 			this.room = GameEntityGraphic.LOUNGE;
+			break;
 		case "Mrs White":
 			this.imageUrl = this.getClass().getResource("/img/Gamepieces/White Piece.png");
 			this.image = new ImageIcon(this.imageUrl);
 			this.room = GameEntityGraphic.KITCHEN;
+			break;
 	}
 	
 }

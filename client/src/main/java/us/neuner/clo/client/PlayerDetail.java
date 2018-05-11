@@ -14,6 +14,7 @@ public class PlayerDetail {
 	private int playerNum;
 	
 	public PlayerDetail(int num, ArrayList<GameEntityGraphic> hand, PlayerInfo player){
+		this.player = player;
 		playerIcon = player.getCard();
 		this.gamePiece = new JLabel();
 		this.gamePiece.setIcon(player.getImage());
