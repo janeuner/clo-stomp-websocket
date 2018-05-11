@@ -35,11 +35,8 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 	private ArrayList<GameEntityID> suspects;
 
 	public void buildDeck() { // initializes and shuffles the playing cards.
-		weapons = new ArrayList<GameEntityID>();
 		weapons = GameEntityID.getWeapons();
-		rooms = new ArrayList<GameEntityID>();
 		rooms = GameEntityID.getRooms();
-		suspects = new ArrayList<GameEntityID>();
 		suspects = GameEntityID.getSuspects();
 
 		Collections.shuffle(weapons);
@@ -64,6 +61,7 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 		}
 		// Catch if ArrayList is Empty (all cards have been drawn).
 		catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 
@@ -77,6 +75,7 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 		}
 		// Catch is ArrayList is Empty (all cards have been drawn).
 		catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -89,6 +88,7 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 		}
 		// Catch if ArrayList is Empty (all cards have been drawn).
 		catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
