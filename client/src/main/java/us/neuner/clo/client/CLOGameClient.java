@@ -1,5 +1,6 @@
 package us.neuner.clo.client;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ import java.util.Collections;
 import java.util.Random;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import java.awt.Toolkit;
 
@@ -29,7 +31,7 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 	private SuggestView suggestView;
 	private PlayerDetail player1; // All players in the game.
 	private PlayerInfo playerInfo1;
-	private ChatView chatView
+	private ChatView chatView;
 
 	private GameEntityGraphic[] envelope; // Array containing the mystery answer.
 	private ArrayList<GameEntityGraphic> weapons;
