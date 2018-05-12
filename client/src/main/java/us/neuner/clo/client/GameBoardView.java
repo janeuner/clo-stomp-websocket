@@ -58,6 +58,10 @@ public class GameBoardView extends JPanel {
 		board.setBounds(0, 0, boardImage.getIconWidth(), boardImage.getIconHeight());
 
 	}
+	
+	public void setnewLocation(int x, int y) {
+		gamePiece.get(0).setLocation(x, y);
+	}
 
 	public Point getGamePiecePoint(int index) {
 		return new Point(gamePiece.get(index).getX(), gamePiece.get(index).getY());
