@@ -101,6 +101,13 @@ public class CloGameSession {
 
 	// BEGIN: Public Methods
 
+	public PlayerDetail[] getPlayer(GameEntityId entity) {
+		if (PieceInfo.isLocation(entity)) {
+			;
+		}
+		return null;
+	}
+	
 	/*
 	 * Remove a player from the @see CloGameSession
 	 * @param pd the @see PlayerDetail for the player to remove
@@ -186,6 +193,35 @@ public class CloGameSession {
 		sendChatHistory(pd);
 		
 		return;
+	}
+
+	/*
+	 * Handle "characterSelect" messages from clients.
+	 * @param select the characterSelect message
+	 * @param sid the connection/session ID associated with the characterSelect
+	 * @param pd the @see PlayerDetail that is mapped to this message
+	 */
+	public void characterSelectHandler(CharacterSelectMessage select, String sid, PlayerDetail pd) {
+		
+		Boolean selected = false;
+		
+		synchronized (lock) {
+			if (this.state != State.Setup) {
+				//TODO:ERROR
+			}
+			else if (!PieceInfo.isSuspect(select.getEntity())) {
+				//TODO:ERROR
+			}
+			else if (!PieceInfo.isSuspect(select.getEntity())) {
+				//TODO:ERROR
+			}
+			else {
+//				pd = new PlayerDetail(this, sid, name);
+//				this.players.add(pd);
+//				selected = true;
+//				pd.getPlayerInfo().setPieceName(select.getEntity());
+			}
+		}
 	}
 	
 	/*

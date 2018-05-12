@@ -14,13 +14,13 @@ public class PieceInfo {
 	 * Create a new @see PieceInfo object.
 	 * @param id this @see GameEntityId for this piece.  @see PieceInfo#isSuspect 
 	 * 		or @see PieceInfo#isWeapon must be true.  
-	 * @param id the initial location.  @see PieceInfo#isLocation must be true.
+	 * @param loc the initial location.  @see PieceInfo#isLocation must be true.
 	 */
 	public PieceInfo(GameEntityId id, GameEntityId loc) {
 
 		if (!isSuspect(id) && !isWeapon(id))
 			throw new IllegalArgumentException("id must be a suspect or a weapon");
-		if (!isLocation(id))
+		if (!isLocation(loc))
 			throw new IllegalArgumentException("loc must be a location");
 		this.id = id;
 		this.loc = loc;
