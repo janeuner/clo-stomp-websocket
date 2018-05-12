@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 	@Type(value = ClientJoinMessage.class, name = "clientJoin"), 
 	@Type(value = GameSetupMessage.class, name = "gameSetup"), 
 	@Type(value = CharacterSelectMessage.class, name = "characterSelect"),
+	@Type(value = PlayStateMessage.class, name = "playState"),
 	@Type(value = EndGameMessage.class, name = "endGame"),  
 	@Type(value = ChatMessage.class, name = "chat"), 
 	@Type(value = ChatMessageHistory.class, name = "chatHistory"),
