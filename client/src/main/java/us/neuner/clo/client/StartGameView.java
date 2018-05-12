@@ -9,9 +9,16 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+
+import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
+
+import us.neuner.clo.message.*;
 
 public class StartGameView extends JFrame {
 
@@ -49,23 +56,63 @@ public class StartGameView extends JFrame {
 			String uname = parent.enterName.getText();
 			String pword = parent.enterSessionPassword.getText();
 			String host = parent.enterServerIP.getText();
+			Boolean connSuccess = false;
 			
 			try {
-				Application.connect(uname, pword, host);
+				CloApplication.connect(uname, pword, host);
+				connSuccess = true;
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (ExecutionException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				if (e1.getCause().getClass() == java.lang.IllegalArgumentException.class) {
+					String msg = String.format("Connection to [%s] failed.", host);
+					JOptionPane.showMessageDialog(this.parent, msg, "Connection Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else if (e1.getCause().getClass() == HttpServerErrorException.class) {
+					HttpServerErrorException httpError = (HttpServerErrorException)e1.getCause();
+					JOptionPane.showMessageDialog(this.parent, httpError.getLocalizedMessage(), "Connection Error", JOptionPane.ERROR_MESSAGE);;
+				}
+				else if (e1.getCause().getClass() == ResourceAccessException.class) {
+					ResourceAccessException resourceError = (ResourceAccessException)e1.getCause();
+					JOptionPane.showMessageDialog(this.parent, resourceError.getLocalizedMessage(), "Connection Error", JOptionPane.ERROR_MESSAGE);;
+				}
+				else {
+					e1.printStackTrace();
+				}
 			}
 
-			new CharacterSelectView(parent.enterName.getText());
-			parent.dispose();
-			
+			if (connSuccess) {
+			}
 		}
 		
 	}
+
+	private static class StartGameMessageHandler implements CloServerMessageNotifier {
+
+		private final StartGameView parent;
+		
+		StartGameMessageHandler(StartGameView parent) {
+			this.parent = parent;
+		}
+		
+		@Override
+		public void onMessageReceived(Message msg) {
+
+			if (msg instanceof ErrorMessage) {
+				ErrorMessage err = (ErrorMessage)msg;
+				JOptionPane.showMessageDialog(this.parent, err.getErrorMessage(), "Server Error", JOptionPane.ERROR_MESSAGE);
+			} 
+			else if (msg instanceof GameSetupMessage) {
+
+				CloApplication.unregisterMessageNotifier(this);
+				new CharacterSelectView(parent.enterName.getText());
+				parent.dispose();
+			}
+		}
+		
+	}	
 	
 	StartGameView() {
 		name.add(screenName);
@@ -92,6 +139,9 @@ public class StartGameView extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		
+		enterServerIP.setText("www.neuner.us:8080");
+		
 		joinGame.addActionListener(new JoinGameHandler(this));
+		CloApplication.registerMessageNotifier(new StartGameMessageHandler(this));
 	}
 }
