@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -35,14 +36,15 @@ public class ChatView extends JPanel{/**
 		messageSend.setLayout(new FlowLayout());
 		messageSend.add(chatMessage); messageSend.add(send);
 		
+		JScrollPane sp = new JScrollPane(chatHistory);
 		
 		setLayout(new GridLayout(2, 1));
-		add(chatHistory);
+		add(sp);
 		add(messageSend);
 		
 		send.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				chatHistory.append(playerName + ": " + chatMessage.getText());
+				chatHistory.append(playerName + ": " + chatMessage.getText() + "\n");
 			}
 		});
 
