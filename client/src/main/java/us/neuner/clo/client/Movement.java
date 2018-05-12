@@ -76,6 +76,7 @@ public class Movement {
 			}
 			Point hallwayPoint = nearest.getPosition();
 			gamePiece.setLocation((hallwayPoint.x), hallwayPoint.y);
+			gamePiece.repaint();
 	 }
 	 
 	 public boolean isInRoom(){

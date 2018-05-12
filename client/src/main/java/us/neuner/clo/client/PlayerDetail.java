@@ -92,7 +92,7 @@ public class PlayerDetail {
 						+ destination.getPosition().distance(nearest.getPosition());
 
 				
-				for(GameEntityGraphic pass : GameEntityGraphic.values()) {
+				for(GameEntityGraphic pass : GameEntityGraphic.getHalls()) {
 					double nextValue = location.getPosition().distance(pass.getPosition())
 							+ destination.getPosition().distance(pass.getPosition());
 
@@ -103,6 +103,7 @@ public class PlayerDetail {
 				}
 				Point hallwayPoint = nearest.getPosition();
 				gamePiece.setLocation((hallwayPoint.x), hallwayPoint.y);
+				gamePiece.repaint();
 		 }
 		 
 		 public boolean isInRoom(){

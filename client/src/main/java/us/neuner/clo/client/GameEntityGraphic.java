@@ -152,6 +152,20 @@ public enum GameEntityGraphic {
 		
 		return weapons;
 	}
+	
+	public static ArrayList<GameEntityGraphic> getHalls(){
+		ArrayList<GameEntityGraphic> Halls;
+		Halls = new ArrayList<GameEntityGraphic>();
+		Halls.add(HALL_A);
+		Halls.add(HALL_B);
+		Halls.add(HALL_C);
+		Halls.add(HALL_D);
+		Halls.add(HALL_E);
+		Halls.add(HALL_F);
+		Halls.add(HALL_G);
+		return Halls;
+		
+	}
 
 	public static ArrayList<GameEntityGraphic> getCards(){
 		ArrayList<GameEntityGraphic> cards;
