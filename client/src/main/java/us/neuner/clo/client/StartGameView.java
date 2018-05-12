@@ -111,7 +111,6 @@ public class StartGameView extends JFrame {
 				parent.dispose();
 			}
 		}
-		
 	}	
 	
 	StartGameView() {

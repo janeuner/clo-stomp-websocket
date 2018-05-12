@@ -22,7 +22,7 @@ public class Movement {
 	
 	 public GameEntityGraphic getDestination(){return destination;}
 	 public GameEntityGraphic getLocation(){return location;}
-	 public int getXPos(){return location.getXPos() + 23*playerNum;}
+	 public int getXPos(){return location.getXPos();}
 	 public int getYPos(){return location.getYPos();}
 	 
 	 
@@ -37,14 +37,16 @@ public class Movement {
 		 }
 	 }
 	 
-	 public void gamePieceMovement(int movement){
+	 public void gamePieceMovement(int movement, GameEntityGraphic destination){
+		 this.destination = destination;
 		 if (isInRoom()){
 			 setDistance();
 		 }
 		 if (movement>=stepsToLocation){
-			 gamePiece.setLocation((destination.getPosition().x + 23*playerNum) , destination.getPosition().y);
+			 gamePiece.setLocation((destination.getPosition().x) , destination.getPosition().y);
+			 gamePiece.repaint();
 				location = destination;
-				destination = null;
+			destination = null;
 				stepsToLocation = 0;
 		 }else{
 			 if(isInRoom()) {
@@ -73,7 +75,8 @@ public class Movement {
 				}
 			}
 			Point hallwayPoint = nearest.getPosition();
-			gamePiece.setLocation((hallwayPoint.x + 23 * playerNum), hallwayPoint.y);
+			gamePiece.setLocation((hallwayPoint.x), hallwayPoint.y);
+			gamePiece.repaint();
 	 }
 	 
 	 public boolean isInRoom(){

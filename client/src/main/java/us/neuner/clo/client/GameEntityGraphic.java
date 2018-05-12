@@ -9,15 +9,15 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 public enum GameEntityGraphic {
-	STUDY(new Area(new Rectangle(40,50,160,90)), 55, 75, "Study"),
-	LIBRARY(new Area(new Rectangle(40,180,160,100)), 55, 215, "Library"),
-	BILLIARD(new Area(new Rectangle(40,300,140,105)), 55, 340, "Billiard Room"),
-    CONSERVATORY(new Area(new Rectangle(40,455,140,110)), 55, 490, "Conservatory"),
-    HALL(new Area(new Rectangle(250,60,130,135)), 255, 125, "Hall"),
-    BALLROOM(new Area(new Rectangle(230,415,175,125)), 255, 470, "Ballroom"),
-    LOUNGE(new Area(new Rectangle(430,50,155,125)), 460, 105, "Lounge"),
-    DININGROOM(new Area(new Rectangle(405,240,185,145)), 460, 300, "Dining Room"),
-    KITCHEN(new Area(new Rectangle(450,435,140,140)), 460, 490, "Kitchen"),
+	STUDY(new Area(new Rectangle(40,160,160,90)), 55, 75, "Study"),
+	LIBRARY(new Area(new Rectangle(40,280,160,100)), 55, 215, "Library"),
+	BILLIARD(new Area(new Rectangle(40,400,140,105)), 55, 340, "Billiard Room"),
+    CONSERVATORY(new Area(new Rectangle(40,550,140,110)), 55, 490, "Conservatory"),
+    HALL(new Area(new Rectangle(250,160,130,135)), 255, 125, "Hall"),
+    BALLROOM(new Area(new Rectangle(230,500,175,125)), 255, 470, "Ballroom"),
+    LOUNGE(new Area(new Rectangle(430,160,155,125)), 460, 105, "Lounge"),
+    DININGROOM(new Area(new Rectangle(405,350,185,145)), 460, 300, "Dining Room"),
+    KITCHEN(new Area(new Rectangle(450,520,140,140)), 460, 490, "Kitchen"),
 	    
     HALL_A(167,127), 
     HALL_B(234,168), 
@@ -113,7 +113,7 @@ public enum GameEntityGraphic {
 		this.position = new Point(xposition, yposition);
 	}
 	
-	public static ArrayList<GameEntityGraphic> getSuspects() {
+	public static ArrayList<GameEntityGraphic> getSuspectCards() {
 		ArrayList<GameEntityGraphic> suspects; 
 		suspects = new ArrayList<GameEntityGraphic>();
 		suspects.add(SCARLET);
@@ -125,23 +125,22 @@ public enum GameEntityGraphic {
 		return suspects;
 	}
 
-	public static ArrayList<GameEntityGraphic> getRooms(){
-		ArrayList<GameEntityGraphic> rooms;
-		rooms = new ArrayList<GameEntityGraphic>();
-		rooms.add(Study);
-		rooms.add(Library);
-		rooms.add(Billiard);
-		rooms.add(Conservatory);
-		rooms.add(Hall);
-		rooms.add(Ballroom);
-		rooms.add(Lounge);
-		rooms.add(DiningRoom);
-		rooms.add(Kitchen);
-		return rooms;
-		
+	public static ArrayList<GameEntityGraphic> getRoomCards(){
+		ArrayList<GameEntityGraphic> roomCards;
+		roomCards = new ArrayList<GameEntityGraphic>();
+		roomCards.add(Study);
+		roomCards.add(Library);
+		roomCards.add(Billiard);
+		roomCards.add(Conservatory);
+		roomCards.add(Hall);
+		roomCards.add(Ballroom);
+		roomCards.add(Lounge);
+		roomCards.add(DiningRoom);
+		roomCards.add(Kitchen);
+		return roomCards;
 	}
 	
-	public static ArrayList<GameEntityGraphic> getWeapons(){
+	public static ArrayList<GameEntityGraphic> getWeaponCards(){
 		ArrayList<GameEntityGraphic> weapons;
 		weapons = new ArrayList<GameEntityGraphic>();
 		weapons.add(KNIFE);
@@ -152,6 +151,20 @@ public enum GameEntityGraphic {
 		weapons.add(WRENCH);
 		
 		return weapons;
+	}
+	
+	public static ArrayList<GameEntityGraphic> getHalls(){
+		ArrayList<GameEntityGraphic> Halls;
+		Halls = new ArrayList<GameEntityGraphic>();
+		Halls.add(HALL_A);
+		Halls.add(HALL_B);
+		Halls.add(HALL_C);
+		Halls.add(HALL_D);
+		Halls.add(HALL_E);
+		Halls.add(HALL_F);
+		Halls.add(HALL_G);
+		return Halls;
+		
 	}
 
 	public static ArrayList<GameEntityGraphic> getCards(){
@@ -167,15 +180,15 @@ public enum GameEntityGraphic {
 		cards.add(WRENCH);
 		
 		//rooms
-		cards.add(STUDY);
-		cards.add(LIBRARY);
+		cards.add(Study);
+		cards.add(Library);
 		cards.add(Billiard);
-		cards.add(CONSERVATORY);
-		cards.add(HALL);
-		cards.add(BALLROOM);
-		cards.add(LOUNGE);
-		cards.add(DININGROOM);
-		cards.add(KITCHEN);
+		cards.add(Conservatory);
+		cards.add(Hall);
+		cards.add(Ballroom);
+		cards.add(Lounge);
+		cards.add(DiningRoom);
+		cards.add(Kitchen);
 		
 		//suspects
 		cards.add(SCARLET);
@@ -186,6 +199,21 @@ public enum GameEntityGraphic {
 		cards.add(WHITE);
 		
 		return cards;
+	}
+	
+	public static ArrayList<GameEntityGraphic> getRooms(){
+		ArrayList<GameEntityGraphic> rooms;
+		rooms = new ArrayList<GameEntityGraphic>();
+		rooms.add(STUDY);
+		rooms.add(LIBRARY);
+		rooms.add(BILLIARD);
+		rooms.add(CONSERVATORY);
+		rooms.add(HALL);
+		rooms.add(BALLROOM);
+		rooms.add(LOUNGE);
+		rooms.add(DININGROOM);
+		rooms.add(KITCHEN);
+		return rooms;
 	}
 	
 	public Area getBoundaryBox() {
