@@ -12,15 +12,8 @@ import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import us.neuner.clo.common.PlayerInfo;
-import us.neuner.clo.common.SuggestionInfo;
-import us.neuner.clo.message.ChatEntry;
-import us.neuner.clo.message.ChatMessage;
-import us.neuner.clo.message.ChatMessageHistory;
-import us.neuner.clo.message.ClientJoinMessage;
-import us.neuner.clo.message.EndGameMessage;
-import us.neuner.clo.message.ErrorMessage;
-import us.neuner.clo.message.GameSetupMessage;
+import us.neuner.clo.common.*;
+import us.neuner.clo.message.*;
 
 /*
  * @author Jarod Neuner <jarod@neuner.us>
@@ -69,6 +62,9 @@ public class CloGameSession {
     private final UUID gameSessionId;
     private final Object lock;
     
+    //Play State objects
+    private PieceInfo[] pieces;
+    
     // End Game Objects
     private String victor;
     private SuggestionInfo solution;
@@ -87,6 +83,20 @@ public class CloGameSession {
         this.solution = SuggestionInfo.Random();
         this.gameSessionId = UUID.randomUUID();
         this.disposeTimer = new Timer(true);
+        
+        //TODO: Remove next statement when logic to complete character selection is done
+        pieces = new PieceInfo[] 
+        		{ 
+        			new PieceInfo(GameEntityId.MrGreen, GameEntityId.MrGreenStart),
+        			new PieceInfo(GameEntityId.MrsPeacock, GameEntityId.MrsPeacockStart),
+        			new PieceInfo(GameEntityId.MissScarlet, GameEntityId.MissScarletStart),
+        			new PieceInfo(GameEntityId.Knife, GameEntityId.Kitchen),
+        			new PieceInfo(GameEntityId.CandleStick, GameEntityId.Library),
+        			new PieceInfo(GameEntityId.LeadPipe, GameEntityId.Study),
+        			new PieceInfo(GameEntityId.Rope, GameEntityId.DiningRoom),
+        			new PieceInfo(GameEntityId.Wrench, GameEntityId.Conservatory),
+        			new PieceInfo(GameEntityId.Revolver, GameEntityId.BilliardRoom),
+        		};
 	}
 
 	// BEGIN: Public Methods
