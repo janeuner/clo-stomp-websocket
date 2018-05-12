@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum GameEntityId {
 	InvalidValue("Invalid Value"),
+	
 	MissScarlet("Miss Scarlet"),
 	MrsWhite("Mrs White"),
 	MrGreen("Mr Green"),
