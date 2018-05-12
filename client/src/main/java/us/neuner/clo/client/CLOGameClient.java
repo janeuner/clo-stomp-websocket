@@ -182,7 +182,9 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 	public void mouseClicked(MouseEvent e) {
 		GameEntityGraphic roomClicked = roomClicked(e.getPoint());
 		if (roomClicked != null) {
-			gameBoardView.setnewLocation(roomClicked.getXPos(), roomClicked.getYPos());
+			//gameBoardView.setnewLocation(roomClicked.getXPos(), roomClicked.getYPos());
+			//player1.getMovement().setLocation(roomClicked);
+			player1.getMovement().gamePieceMovement(3, roomClicked);
 			
 			
 		}

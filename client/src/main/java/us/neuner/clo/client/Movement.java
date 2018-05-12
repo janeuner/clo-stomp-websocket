@@ -22,7 +22,7 @@ public class Movement {
 	
 	 public GameEntityGraphic getDestination(){return destination;}
 	 public GameEntityGraphic getLocation(){return location;}
-	 public int getXPos(){return location.getXPos() + 23*playerNum;}
+	 public int getXPos(){return location.getXPos();}
 	 public int getYPos(){return location.getYPos();}
 	 
 	 
@@ -37,12 +37,14 @@ public class Movement {
 		 }
 	 }
 	 
-	 public void gamePieceMovement(int movement){
+	 public void gamePieceMovement(int movement, GameEntityGraphic destination){
+		 this.destination = destination;
 		 if (isInRoom()){
 			 setDistance();
 		 }
 		 if (movement>=stepsToLocation){
 			 gamePiece.setLocation((destination.getPosition().x) , destination.getPosition().y);
+			 gamePiece.repaint();
 				location = destination;
 			destination = null;
 				stepsToLocation = 0;
