@@ -1,0 +1,27 @@
+apply plugin: 'application'
+
+mainClassName = 'us.neuner.clo.client.IntroductionUI'
+
+jar {
+    manifest {
+      attributes 'Main-Class': 'us.neuner.clo.client.IntroductionUI'
+    }
+    baseName = 'clo-swing-client'
+    version =  '0.0.1'
+}
+
+dependencies {
+    compile project(':core')
+
+
+	//compile group: 'org.springframework', name: 'spring-websocket', version: '5.0.6.RELEASE'
+	//compile group: 'org.springframework', name: 'spring-messaging', version: '5.0.6.RELEASE'
+
+
+	compile 'org.springframework:spring-websocket:5.0.6.RELEASE'
+	compile 'org.springframework:spring-messaging:5.0.6.RELEASE'
+	compile 'org.glassfish.tyrus.bundles:tyrus-standalone-client:1.9'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
+
+    testCompile 'junit:junit:4.12'
+}

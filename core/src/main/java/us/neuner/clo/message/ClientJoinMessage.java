@@ -15,6 +15,19 @@ public class ClientJoinMessage extends Message {
 
 	private String sessionPassword;
 	private String playerName;
+	
+
+	/*
+     * Creates a new @see ClientJoinMessage object.
+     * @param psid the player-session identifier associated with this message
+	 * @param sessionPassword the password used to authorize access to a game session
+	 * @param playerName the name of the player that is joining the session
+	 */
+	public ClientJoinMessage(String psid, String sessionPassword, String playerName) {
+		super(psid);
+		this.setSessionPassword(sessionPassword);
+		this.setPlayerName(playerName);
+	}
 
 	/*
      * Creates a new @see ClientJoinMessage object.
