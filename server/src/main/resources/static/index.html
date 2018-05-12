@@ -19,84 +19,117 @@
 <body>
     <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Clueless Online relies on Javascript being
     enabled. Please enable Javascript and reload this page!</h2></noscript>
-    <div class="layout">
-        <div class="gameboard">
-            <div class="room" id="study">Study</div>
-            <div class="room" id="h1">Hallway 1</div>
-            <div class="room" id="hall">Hall</div>
-            <div class="room" id="h2">Hallway 2</div>
-            <div class="room" id="lounge">Lounge</div>
-            <div class="room" id="h3">Hallway 3</div>
-            <div class="blank"></div>
-            <div class="room" id="h4">Hallway 4</div>
-            <div class="blank"></div>
-            <div class="room" id="h5">Hallway 5</div>
-            <div class="room" id="library">Library</div>
-            <div class="room" id="h6">Hallway 6</div>
-            <div class="room" id="billiard">Billiard Room</div>
-            <div class="room" id="h7">Hallway 7</div>
-            <div class="room" id="dining">Dining Room</div>
-            <div class="room" id="h8">Hallway 8</div>
-            <div class="blank"></div>
-            <div class="room" id="h9">Hallway 9</div>
-            <div class="blank"></div>
-            <div class="room" id="h10">Hallway 10</div>
-            <div class="room" id="Conservatory">Conservatory</div>
-            <div class="room" id="h11">Hallway 11</div>
-            <div class="room" id="ballroom">Ballroom</div>
-            <div class="room" id="h12">Hallway 12</div>
-            <div class="room" id="kitchen">Kitchen</div>
-        </div>
-        <div class="container-fluid main">
-            <div class="row vertical-expand">
-                <div class="col-xs-12 col-sm-8">
-                    <div class="row">
-                        <div id="startGamePanel" class="col-xs-12">
-                            <form class="form-inline">
-                                <div class="form-group">
-                                    <label class="sr-only" for="nameInput">Your name</label>
-                                    <input type="text" id="nameInput" class="form-control" placeholder="Your Name Here...">
-                                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
-                                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div id="errorPanel" class="col-xs-12">
-                            <div id="errorPanelItemTemplate" class="col-xs-12 alert alert-warning alert-dismissible" role="alert" hidden>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <strong id="errorMessage">Look Ma - I made an alert!</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="chatPanel" class="hidden-xs col-sm-4 vertical-expand">
-                    <div id="conversation">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Messages</th>
-                                </tr>
-                            </thead>
-                            <tbody id="messages">
-                            </tbody>
-                        </table>
-                    </div>
-                    <form id="msgForm" class="form-inline">
-                        <div class="form-group">
-                            <label class="sr-only" for="msgInput">Your message</label>
-                            <input type="text" id="msgInput" class="form-control" placeholder="Enter chat here..." disabled="disabled">
-                            <button id="send" class="btn btn-default" type="submit">Send</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div>
-            <button type="button" id="move">move</button>
-        </div>
-    </div>
+	<div class="container-fluid main">
+		<!-- <div class="gameboard">
+		    <div class="room" id="study">Study</div>
+		    <div class="room" id="h1">Hallway 1</div>
+		    <div class="room" id="hall">Hall</div>
+		    <div class="room" id="h2">Hallway 2</div>
+		    <div class="room" id="lounge">Lounge</div>
+		    <div class="room" id="h3">Hallway 3</div>
+		    <div class="blank"></div>
+		    <div class="room" id="h4">Hallway 4</div>
+		    <div class="blank"></div>
+		    <div class="room" id="h5">Hallway 5</div>
+		    <div class="room" id="library">Library</div>
+		    <div class="room" id="h6">Hallway 6</div>
+		    <div class="room" id="billiard">Billiard Room</div>
+		    <div class="room" id="h7">Hallway 7</div>
+		    <div class="room" id="dining">Dining Room</div>
+		    <div class="room" id="h8">Hallway 8</div>
+		    <div class="blank"></div>
+		    <div class="room" id="h9">Hallway 9</div>
+		    <div class="blank"></div>
+		    <div class="room" id="h10">Hallway 10</div>
+		    <div class="room" id="Conservatory">Conservatory</div>
+		    <div class="room" id="h11">Hallway 11</div>
+		    <div class="room" id="ballroom">Ballroom</div>
+		    <div class="room" id="h12">Hallway 12</div>
+		    <div class="room" id="kitchen">Kitchen</div>
+		</div>  -->
+	    <div class="row vertical-expand">
+	        <div class="col-xs-12 col-sm-8">
+	            <div class="row">
+	                <div id="startGamePanel" class="col-xs-12">
+	                    <form class="form-inline">
+	                        <div class="form-group">
+	                            <label class="sr-only" for="nameInput">Your name</label>
+	                            <input type="text" id="nameInput" class="form-control" placeholder="Your Name Here...">
+	                            <button id="connect" class="btn btn-default" type="submit">Connect</button>
+	                            <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect</button>
+	                        </div>
+	                    </form>
+	                </div>
+	            </div>
+	            <div class="row">
+	                <div id="errorPanel" class="col-xs-12">
+	                    <div id="errorPanelItemTemplate" class="col-xs-12 alert alert-warning alert-dismissible" role="alert" hidden>
+	                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                        <strong id="errorMessage">Look Ma - I made an alert!</strong>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="row">
+	            	<div class="col-xs-12 gameboard">
+					    <div class="room" id="study">Study</div>
+					    <div class="room" id="H01">Hallway 1</div>
+					    <div class="room" id="hall">Hall</div>
+					    <div class="room" id="H02">Hallway 2</div>
+					    <div class="room" id="lounge">Lounge</div>
+					    
+					    <div class="room" id="H03">Hallway 3</div>
+					    <div class="blank"></div>
+					    <div class="room" id="H04">Hallway 4</div>
+					    <div class="blank"></div>
+					    <div class="room" id="H05">Hallway 5</div>
+					    
+					    <div class="room" id="library">Library</div>
+					    <div class="room" id="H06">Hallway 6</div>
+					    <div class="room" id="billiard">Billiard Room</div>
+					    <div class="room" id="H07">Hallway 7</div>
+					    <div class="room" id="dining">Dining Room</div>
+					    
+					    <div class="room" id="H08">Hallway 8</div>
+					    <div class="blank"></div>
+					    <div class="room" id="H09">Hallway 9</div>
+					    <div class="blank"></div>
+					    <div class="room" id="H10">Hallway 10</div>
+					    
+					    <div class="room" id="Conservatory">Conservatory</div>
+					    <div class="room" id="H11">Hallway 11</div>
+					    <div class="room" id="Ballroom">Ballroom</div>
+					    <div class="room" id="H12">Hallway 12</div>
+					    <div class="room" id="kitchen">Kitchen</div>
+					</div>
+	            </div>
+	            <div class="row">
+					<div>
+					    <button type="button" id="move">move</button>
+					</div>
+	            </div>
+	        </div>
+	        <div id="chatPanel" class="hidden-xs col-sm-4 vertical-expand">
+	            <div id="conversation">
+	                <table class="table table-striped">
+	                    <thead>
+	                        <tr>
+	                            <th>Messages</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody id="messages">
+	                    </tbody>
+	                </table>
+	            </div>
+	            <form id="msgForm" class="form-inline">
+	                <div class="form-group">
+	                    <label class="sr-only" for="msgInput">Your message</label>
+	                    <input type="text" id="msgInput" class="form-control" placeholder="Enter chat here..." disabled="disabled">
+	                    <button id="send" class="btn btn-default" type="submit">Send</button>
+	                </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>
     <footer class="footer">
         <div class="container">
             <div class="text-muted">Forged from the blood and sweat of Clueless JHU Software Engineering Students.</div>
