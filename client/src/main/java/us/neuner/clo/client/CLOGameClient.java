@@ -174,6 +174,8 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setVisible(true);
 
+		// Subscribe to MouseListener events
+		this.addMouseListener(this);
 	}
 
 	public void setFrame(int width, int height) {
