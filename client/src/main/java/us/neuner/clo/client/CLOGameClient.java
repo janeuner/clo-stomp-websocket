@@ -43,9 +43,9 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 	private JPanel p2 = new JPanel();
 
 	public void buildDeck() { // initializes and shuffles the playing cards.
-		weapons = GameEntityGraphic.getWeapons();
-		rooms = GameEntityGraphic.getRooms();
-		suspects = GameEntityGraphic.getSuspects();
+		weapons = GameEntityGraphic.getWeaponCards();
+		rooms = GameEntityGraphic.getRoomCards();
+		suspects = GameEntityGraphic.getSuspectCards();
 
 		Collections.shuffle(weapons);
 		Collections.shuffle(rooms);
@@ -169,7 +169,7 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 		add(playerView);
 
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/img/ClientGUI/Board Resized.jpeg")));
-		setSize(900, 1000);
+		setSize(900, 1000 );
 		setResizable(false);
 		setName("CLO GameClient");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -183,8 +183,8 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 		GameEntityGraphic roomClicked = roomClicked(e.getPoint());
 		if (roomClicked != null) {
 			gameBoardView.setnewLocation(roomClicked.getXPos(), roomClicked.getYPos());
-			gameBoardView.repaint();
-			gameBoardView.revalidate();
+			
+			
 		}
 	}
 	

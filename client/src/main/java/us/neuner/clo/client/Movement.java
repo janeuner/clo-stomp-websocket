@@ -42,9 +42,9 @@ public class Movement {
 			 setDistance();
 		 }
 		 if (movement>=stepsToLocation){
-			 gamePiece.setLocation((destination.getPosition().x + 23*playerNum) , destination.getPosition().y);
+			 gamePiece.setLocation((destination.getPosition().x) , destination.getPosition().y);
 				location = destination;
-				destination = null;
+			destination = null;
 				stepsToLocation = 0;
 		 }else{
 			 if(isInRoom()) {
@@ -73,7 +73,7 @@ public class Movement {
 				}
 			}
 			Point hallwayPoint = nearest.getPosition();
-			gamePiece.setLocation((hallwayPoint.x + 23 * playerNum), hallwayPoint.y);
+			gamePiece.setLocation((hallwayPoint.x), hallwayPoint.y);
 	 }
 	 
 	 public boolean isInRoom(){
