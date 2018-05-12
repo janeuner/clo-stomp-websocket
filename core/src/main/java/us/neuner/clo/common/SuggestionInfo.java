@@ -98,12 +98,7 @@ public class SuggestionInfo {
 	 * Suitable for creating the victory solution when a session is initialized.
 	 */
 	public static SuggestionInfo Random() {
-		SecureRandom rng;
-		try {
-			rng = SecureRandom.getInstanceStrong();
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("This software product requires SecureRandom to for normal operation.", e);
-		}
+		SecureRandom rng = new SecureRandom();
 
 		int roomNum = rng.nextInt(9);
 		int suspectNum = rng.nextInt(6);
