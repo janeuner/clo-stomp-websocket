@@ -3,6 +3,7 @@ package us.neuner.clo.client;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -178,6 +179,24 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 		this.addMouseListener(this);
 	}
 
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		GameEntityGraphic roomClicked = roomClicked(e.getPoint());
+		if (roomClicked != null) {
+			gameBoardView.setnewLocation(roomClicked.getXPos(), roomClicked.getYPos());
+		}
+	}
+	
+	
+	private GameEntityGraphic roomClicked(Point point) {
+		for (GameEntityGraphic room: GameEntityGraphic.getRooms()) {
+			if (room.getBoundaryBox().contains(point) && room != player1.getMovement().getLocation()) {
+				return room;
+			}	
+		}
+		return null;
+	}
+
 	public void setFrame(int width, int height) {
 		this.setSize(width, height);
 		setResizable(false);
@@ -214,11 +233,7 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 
-	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
