@@ -174,16 +174,17 @@ public class CLOGameClient extends JFrame implements MouseListener, ActionListen
 		setName("CLO GameClient");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setVisible(true);
+		
+		addMouseListener(this);
 
-		// Subscribe to MouseListener events
-		this.addMouseListener(this);
 	}
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		GameEntityGraphic roomClicked = roomClicked(e.getPoint());
 		if (roomClicked != null) {
 			gameBoardView.setnewLocation(roomClicked.getXPos(), roomClicked.getYPos());
+			gameBoardView.repaint();
+			gameBoardView.revalidate();
 		}
 	}
 	
