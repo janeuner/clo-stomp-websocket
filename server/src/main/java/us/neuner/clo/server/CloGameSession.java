@@ -22,119 +22,122 @@ import us.neuner.clo.message.*;
 public class CloGameSession {
 
 	private static Logger LOG = LogManager.getLogger(CloGameSession.class);
-	  
+
 	/*
-	 * @author Jarod Neuner <jarod@neuner.us>
-	 * Modes of operation for each @see CloGameSession instance.
+	 * @author Jarod Neuner <jarod@neuner.us> Modes of operation for each @see
+	 * CloGameSession instance.
 	 */
 	public enum State {
-		
+
 		/*
-		 * The session is accepting client connections.
-		 * The session relays chat amongst connected participants.
+		 * The session is accepting client connections. The session relays chat amongst
+		 * connected participants.
 		 */
 		Setup,
-		
+
 		/*
-		 * The session does not accept new client connections
-		 * The session monitors for client disconnects.
-		 * The session responds to gameplay messages and updates game state IAW game rules.
+		 * The session does not accept new client connections The session monitors for
+		 * client disconnects. The session responds to gameplay messages and updates
+		 * game state IAW game rules.
 		 */
 		Play,
-		
+
 		/*
-		 * The session monitors clients for disconnects.
-		 * The session does not respond to gameplay messages
-		 * The server drops focus on this session.
-		 * The session starts a two (2) minute session-termination timer.
+		 * The session monitors clients for disconnects. The session does not respond to
+		 * gameplay messages The server drops focus on this session. The session starts
+		 * a two (2) minute session-termination timer.
 		 */
 		Cleanup,
 	}
-	
-	private static final int PLAYER_START_COUNT = 3;		// Number of players that transitions game to Play state.
-	private static final int PLAYER_NAME_LEN_MIN = 3;		// Player names must be at least this long
-	private static final int PLAYER_NAME_LEN_MAX = 16;		// Player names must be no longer than this
-	
+
+	private static final int PLAYER_START_COUNT = 3; // Number of players that transitions game to Play state.
+	private static final int PLAYER_NAME_LEN_MIN = 3; // Player names must be at least this long
+	private static final int PLAYER_NAME_LEN_MAX = 16; // Player names must be no longer than this
+
 	private final CloGameServer server;
-	private final List<PlayerDetail> players; 
-    private List<ChatEntry> msgList;
-    private CloGameSession.State state;
-    private final UUID gameSessionId;
-    private final Object lock;
-    
-    //Play State objects
-    private PieceInfo[] pieces;
-    
-    // End Game Objects
-    private String victor;
-    private SuggestionInfo solution;
-    private Timer disposeTimer;
+	private final List<PlayerDetail> players;
+	private List<ChatEntry> msgList;
+	private CloGameSession.State state;
+	private final UUID gameSessionId;
+	private final Object lock;
+
+	// Play State objects
+	private PieceInfo[] pieces;
+
+	// End Game Objects
+	private String victor;
+	private SuggestionInfo solution;
+	private Timer disposeTimer;
 
 	/*
-     * Create a new @see CloGameSession instance.
-     * @param server The parent @see CloGameServer instance.
-     */
+	 * Create a new @see CloGameSession instance.
+	 * 
+	 * @param server The parent @see CloGameServer instance.
+	 */
 	public CloGameSession(CloGameServer server) {
 		this.server = server;
 		this.players = new ArrayList<PlayerDetail>();
-        this.msgList = new LinkedList<ChatEntry>();
-        this.state = State.Setup;
-        this.lock = new Object();
-        this.solution = SuggestionInfo.Random();
-        this.gameSessionId = UUID.randomUUID();
-        this.disposeTimer = new Timer(true);
-        
-        //TODO: Remove next statement when logic to complete character selection is done
-        pieces = new PieceInfo[] 
-        		{ 
-        			new PieceInfo(GameEntityId.MrGreen, GameEntityId.MrGreenStart),
-        			new PieceInfo(GameEntityId.MrsPeacock, GameEntityId.MrsPeacockStart),
-        			new PieceInfo(GameEntityId.MissScarlet, GameEntityId.MissScarletStart),
-        			new PieceInfo(GameEntityId.Knife, GameEntityId.Kitchen),
-        			new PieceInfo(GameEntityId.CandleStick, GameEntityId.Library),
-        			new PieceInfo(GameEntityId.LeadPipe, GameEntityId.Study),
-        			new PieceInfo(GameEntityId.Rope, GameEntityId.DiningRoom),
-        			new PieceInfo(GameEntityId.Wrench, GameEntityId.Conservatory),
-        			new PieceInfo(GameEntityId.Revolver, GameEntityId.BilliardRoom),
-        		};
+		this.msgList = new LinkedList<ChatEntry>();
+		this.state = State.Setup;
+		this.lock = new Object();
+		this.solution = SuggestionInfo.Random();
+		this.gameSessionId = UUID.randomUUID();
+		this.disposeTimer = new Timer(true);
+
+		// TODO: Remove next statement when logic to complete character selection is
+		// done
+		pieces = new PieceInfo[] { new PieceInfo(GameEntityId.MrGreen, GameEntityId.MrGreenStart),
+				new PieceInfo(GameEntityId.MrsPeacock, GameEntityId.MrsPeacockStart),
+				new PieceInfo(GameEntityId.MissScarlet, GameEntityId.MissScarletStart),
+				new PieceInfo(GameEntityId.MrsWhite, GameEntityId.MrsWhiteStart),
+				new PieceInfo(GameEntityId.ProfessorPlum, GameEntityId.ProfessorPlum),
+				new PieceInfo(GameEntityId.ColonelMustard, GameEntityId.ColonelMustard),
+				new PieceInfo(GameEntityId.Knife, GameEntityId.Kitchen),
+				new PieceInfo(GameEntityId.CandleStick, GameEntityId.Library),
+				new PieceInfo(GameEntityId.LeadPipe, GameEntityId.Study),
+				new PieceInfo(GameEntityId.Rope, GameEntityId.DiningRoom),
+				new PieceInfo(GameEntityId.Wrench, GameEntityId.Conservatory),
+				new PieceInfo(GameEntityId.Revolver, GameEntityId.BilliardRoom), };
 	}
 
 	// BEGIN: Public Methods
-	
+  
 	/*
 	 * Remove a player from the @see CloGameSession
+	 * 
 	 * @param pd the @see PlayerDetail for the player to remove
 	 */
 	public void removePlayer(PlayerDetail pd) {
 		removePlayer(pd.getPsid());
 	}
-	
+
 	/*
 	 * Remove a player from the @see CloGameSession
+	 * 
 	 * @param psid the player-session id for the player to remove
 	 */
 	public void removePlayer(String psid) {
 		Boolean removed = false;
-		
+
 		for (PlayerDetail pd : this.players) {
 			if (pd.getPsid().equals(psid)) {
 				removed = this.players.remove(pd);
 				break;
 			}
 		}
-		
+
 		if (removed) {
-			//TODO: Handling for players that are removed during play state
+			// TODO: Handling for players that are removed during play state
 		}
 	}
-	
-    /*
-     * Returns the current mode of operation for this session.
-     */
-    public CloGameSession.State getState() {
+
+	/*
+	 * Returns the current mode of operation for this session.
+	 */
+	public CloGameSession.State getState() {
 		return state;
 	}
-    
+
 	// END: Public Methods
 
 	// BEGIN: Private Utilities
@@ -196,25 +199,29 @@ public class CloGameSession {
 	// END: Private Utilities
 
 	// BEGIN: Incoming message & event handlers
-    
+
 	/*
 	 * Handle "clientJoin" messages from clients.
+	 * 
 	 * @param join the clientJoin message
+	 * 
 	 * @param sid the connection/session ID associated with the clientJoin
-	 * @param pd the @see PlayerDetail that is mapped to this message (often null - new players)
+	 * 
+	 * @param pd the @see PlayerDetail that is mapped to this message (often null -
+	 * new players)
 	 */
 	public void clientJoinHandler(ClientJoinMessage join, String sid, PlayerDetail pd) {
 
 		if (pd != null)
-			assert(this.players.contains(pd));
-		
+			assert (this.players.contains(pd));
+
 		if (pd == null) {
 			String name = join.getPlayerName();
 			Boolean joined = false;
-			
+
 			// Input validation on PlayerDetail parameters
 			if ((name == null) || (name.length() < PLAYER_NAME_LEN_MIN) || (name.length() > PLAYER_NAME_LEN_MAX)) {
-				
+
 				String errMsg = "Players must provide name between %d and %d characters long.";
 				sendErrorMessage(join, sid, String.format(errMsg, PLAYER_NAME_LEN_MIN, PLAYER_NAME_LEN_MIN));
 				return;
@@ -228,32 +235,35 @@ public class CloGameSession {
 					joined = true;
 				}
 			}
-			
+
 			if (joined) {
-				LOG.info("Adding player[session={}]: name={} psid={} sid={}", this.gameSessionId, name, pd.getPsid(), sid);
-			}
-			else /* if (!joined) */ {
+				LOG.info("Adding player[session={}]: name={} psid={} sid={}", this.gameSessionId, name, pd.getPsid(),
+						sid);
+			} else /* if (!joined) */ {
 				String errMsg = "Game session in progress.  Please try back again later...";
 				sendErrorMessage(join, sid, errMsg);
 				return;
 			}
-			
+
 		}
-		
+
 		sessionStateUpdate();
 		sendChatHistory(pd);
-		
+
 		return;
 	}
 
 	/*
 	 * Handle "characterSelect" messages from clients.
+	 * 
 	 * @param select the characterSelect message
+	 * 
 	 * @param sid the connection/session ID associated with the characterSelect
+	 * 
 	 * @param pd the @see PlayerDetail that is mapped to this message
 	 */
 	public void characterSelectHandler(CharacterSelectMessage select, String sid, PlayerDetail pd) {
-		
+
 		Boolean selected = false;
 		String errMsg = null;
 		
@@ -281,27 +291,59 @@ public class CloGameSession {
 			sessionStateUpdate();
 		}
 	}
-	
+
 	/*
 	 * Handles "chat" from clients.
+	 * 
 	 * @param chat the @see ChatMessage that the server received
+	 * 
 	 * @param playerName player name for the client that sent the message
 	 */
 	public void chatMessageHandler(ChatMessage chat, String playerName) {
-		
+
 		String msg = chat.getMsg();
 		this.sessionAddChatMessage(playerName, msg);
 	}
-	
+
+	/*
+	 * Handles "move" from clients.
+	 * 
+	 * @param move the @see MoveMessage that the server received
+	 * 
+	 * @param playerName player name for the client that sent the message
+	 */
+	public void moveMessageHandler(MoveMessage move) {
+		//get destination from message
+		GameEntityId dest = move.getDest();
+		//get the name of the piece of the player sending the message
+		GameEntityId player=PlayerDetail.getPlayerDetail(move.getMid()).getPlayerInfo().getPieceName();
+		PieceInfo info=null;
+		boolean isOccupied=false;
+		//iterates through pieces for player piece, and check for occupied hallways
+		for(PieceInfo piece : pieces) {
+			if(piece.getId().equals(player)) {
+				info=piece;
+			}
+			//if any susepct is in the desintation, and that destination is a hallway
+			if(piece.isSuspect() && piece.getLoc().equals(dest) && PieceInfo.isHallway(dest)) {
+				isOccupied=true;
+			}
+		}
+		//PieceInfo.moveTo() checks for isValid move, 
+		if(!isOccupied) {
+			info.moveTo(loc);
+		}
+	}
+
 	// END: Incoming message & event handlers
 
 	// BEGIN: State update operations
-	
+
 	/*
 	 * Send a global update appropriate to the current session state
 	 */
 	private void sessionStateUpdate() {
-		
+
 		if (state == State.Setup) {
 			sendGameSetup();
 
@@ -322,26 +364,26 @@ public class CloGameSession {
 //	private void sessionSetup() {
 //		
 //	}
-	
+  
 	private void sessionCleanup() {
-		
+
 		/*
 		 * Cleans up the @see CloGameSession after a timeout.
 		 */
 		final class SessionCleanupTimerTask extends java.util.TimerTask {
 
 			private CloGameSession session;
-			
+
 			public SessionCleanupTimerTask(CloGameSession session) {
 
 				this.session = session;
 			}
-			
+
 			@Override
 			public void run() {
 
 				this.session.sessionAddChatMessage("System", "Terminating chat session.");
-				
+
 				for (PlayerDetail pd : this.session.players)
 					pd.close();
 				this.session.players.clear();
@@ -349,82 +391,85 @@ public class CloGameSession {
 		}
 
 		Boolean startCleanup = false;
-		
+
 		synchronized (this.lock) {
 			if (state != State.Cleanup) {
 				state = State.Cleanup;
 				startCleanup = true;
 			}
 		}
-		
+
 		if (startCleanup) {
-	        sendEndGame();
+			sendEndGame();
 			this.sessionAddChatMessage("System", "Game Session has ended.");
-	        
-	        this.disposeTimer.schedule(new SessionCleanupTimerTask(this), 120000);
+
+			this.disposeTimer.schedule(new SessionCleanupTimerTask(this), 120000);
 		}
-		
+
 	}
 
 	/*
 	 * Create a new @see ChatEntry object.
+	 * 
 	 * @param playerName the sender of the message
+	 * 
 	 * @param msg the message
 	 */
 	private void sessionAddChatMessage(String playerName, String msg) {
 
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		fmt.setTimeZone(TimeZone.getTimeZone("GMT"));
-			
+
 		ChatEntry ce = new ChatEntry(playerName, msg, fmt.format(new Date()));
 		this.msgList.add(ce);
-        for (PlayerDetail pd : this.players)
-        	this.sendChatHistory(pd);
+		for (PlayerDetail pd : this.players)
+			this.sendChatHistory(pd);
 	}
 
 	// END: State update operations
-	
-	// BEGIN: Outgoing message operations
-	
-	private void sendGameSetup() {
-	    List<PlayerInfo> pInfoList = new ArrayList<PlayerInfo>(players.size());
 
-        for (PlayerDetail pd : this.players)
-        	pInfoList.add(pd.getPlayerInfo());
-        
-        for (PlayerDetail pd : this.players) {
-        	String psid = pd.getPsid();
-        	GameSetupMessage gsm = new GameSetupMessage(psid, pInfoList);
-        	server.sendToClient(pd, gsm);
-        }
+	// BEGIN: Outgoing message operations
+
+	private void sendGameSetup() {
+		List<PlayerInfo> pInfoList = new ArrayList<PlayerInfo>(players.size());
+
+		for (PlayerDetail pd : this.players)
+			pInfoList.add(pd.getPlayerInfo());
+
+		for (PlayerDetail pd : this.players) {
+			String psid = pd.getPsid();
+			GameSetupMessage gsm = new GameSetupMessage(psid, pInfoList);
+			server.sendToClient(pd, gsm);
+		}
 	}
 
 	private void sendEndGame() {
-        for (PlayerDetail pd : this.players) {
-        	String psid = pd.getPsid();
-    		EndGameMessage egm = new EndGameMessage(psid, this.victor, this.solution);
-        	server.sendToClient(pd, egm);
-        }
+		for (PlayerDetail pd : this.players) {
+			String psid = pd.getPsid();
+			EndGameMessage egm = new EndGameMessage(psid, this.victor, this.solution);
+			server.sendToClient(pd, egm);
+		}
 	}
-	
+
 	/*
 	 * Sends the session chat history to the specified player.
+	 * 
 	 * @param pd the player which will receive a @see ChatMessageHistory
 	 */
 	private void sendChatHistory(PlayerDetail pd) {
-		
-    	String psid = pd.getPsid();
-    	if (psid != null) {
-        	ChatMessageHistory h = new ChatMessageHistory(psid, msgList); 
-        	server.sendToClient(pd, h);
-    	}
+
+		String psid = pd.getPsid();
+		if (psid != null) {
+			ChatMessageHistory h = new ChatMessageHistory(psid, msgList);
+			server.sendToClient(pd, h);
+		}
 	}
-	
+
 	private void sendErrorMessage(us.neuner.clo.message.Message clientMsg, String sid, String errMsg) {
 		ErrorMessage err = new ErrorMessage(clientMsg, errMsg);
 		server.sendToClient(sid, err);
 	}
-	
+
 	// BEGIN: Outgoing message operations
 
 }
