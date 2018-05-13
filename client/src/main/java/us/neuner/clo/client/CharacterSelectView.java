@@ -31,7 +31,7 @@ public class CharacterSelectView extends JFrame implements ActionListener {
 		charButtons = new ArrayList<JButton>(6);
 		playerSelectNum = 0;
 		
-		for (GameEntityGraphic gamePiece: GameEntityGraphic.getSuspects()){
+		for (GameEntityGraphic gamePiece: GameEntityGraphic.getSuspectCards()){
 			JButton option = new JButton();
 			option.setIcon(gamePiece.getImage());
 			option.addActionListener(this);

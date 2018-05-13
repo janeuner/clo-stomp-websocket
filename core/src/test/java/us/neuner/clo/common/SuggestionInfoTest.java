@@ -56,7 +56,7 @@ public class SuggestionInfoTest {
 		assertFalse(si1.equals(si5));
 	}
 
-	@Ignore("Needs implementation of PieceInfo static operations.") @Test
+	@Test
 	public void testRandom() {
 
 		for (int i = 0; i < 500; i++) {

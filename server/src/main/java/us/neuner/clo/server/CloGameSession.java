@@ -101,14 +101,7 @@ public class CloGameSession {
 	}
 
 	// BEGIN: Public Methods
-
-	public PlayerDetail[] getPlayer(GameEntityId entity) {
-		if (PieceInfo.isLocation(entity)) {
-			;
-		}
-		return null;
-	}
-
+  
 	/*
 	 * Remove a player from the @see CloGameSession
 	 * 
@@ -146,6 +139,64 @@ public class CloGameSession {
 	}
 
 	// END: Public Methods
+
+	// BEGIN: Private Utilities
+    
+    /*
+     * Retrieves the PlayerDetail instances that are associated with a @see GameEntityId.
+     * @param entity may be a Suspect, a Location, or @see GameEntityId#InvalidValue.
+     * For a suspect, the result will be the PlayerDetail for the player acting as that suspect.
+     * For a location, the result will be the PlayerDetail instances for all players at that location.
+     */
+	private List<PlayerDetail> getPlayerDetail(GameEntityId entity) {
+		List<PlayerDetail> result;
+		
+		if (entity == GameEntityId.InvalidValue) {
+			
+			result = new ArrayList<PlayerDetail>(PLAYER_START_COUNT);
+
+			for (PlayerDetail pd : this.players) {
+				
+				if (pd.getPlayerInfo().getPieceName() == entity) {
+					result.add(pd);
+					break;
+				}
+			}
+		}
+		else if (PieceInfo.isSuspect(entity)) {
+
+			result = new ArrayList<PlayerDetail>(1);
+			
+			for (PlayerDetail pd : this.players) {
+				
+				if (pd.getPlayerInfo().getPieceName() == entity) {
+					result.add(pd);
+					break;
+				}
+			}
+		}
+		else if (PieceInfo.isLocation(entity)) {
+
+			result = new ArrayList<PlayerDetail>(PLAYER_START_COUNT);
+			
+			for (PieceInfo pi : pieces) {
+
+				if (PieceInfo.isSuspect(pi.getId()))
+					continue;
+				if (pi.getLoc() != entity)
+					continue;
+
+				result.addAll(getPlayerDetail(pi.getId()));
+			}
+		}
+		else {
+			result = new ArrayList<PlayerDetail>(0);
+		}
+		
+		return result;
+	}
+	
+	// END: Private Utilities
 
 	// BEGIN: Incoming message & event handlers
 
@@ -214,20 +265,30 @@ public class CloGameSession {
 	public void characterSelectHandler(CharacterSelectMessage select, String sid, PlayerDetail pd) {
 
 		Boolean selected = false;
-
+		String errMsg = null;
+		
 		synchronized (lock) {
 			if (this.state != State.Setup) {
-				// TODO:ERROR
-			} else if (!PieceInfo.isSuspect(select.getEntity())) {
-				// TODO:ERROR
-			} else if (!PieceInfo.isSuspect(select.getEntity())) {
-				// TODO:ERROR
-			} else {
-				// pd = new PlayerDetail(this, sid, name);
-				// this.players.add(pd);
-				// selected = true;
-				// pd.getPlayerInfo().setPieceName(select.getEntity());
+				errMsg = "Game session in progress.  Please try back again later...";
 			}
+			else if (!PieceInfo.isSuspect(select.getEntity())) {
+				errMsg = "Malformed message from client: Invalid entityId.";
+			}
+			else if (this.getPlayerDetail(select.getEntity()).size() > 0) {
+				errMsg = "That suspect has already been claimed.  Please make a different selection.";
+			}
+			else {
+				selected = true;
+				pd.getPlayerInfo().setPieceName(select.getEntity());
+			}
+		}
+		
+		if (errMsg != null) {
+			sendErrorMessage(select, sid, errMsg);
+		}
+		
+		if (selected) {
+			sessionStateUpdate();
 		}
 	}
 
@@ -286,17 +347,24 @@ public class CloGameSession {
 		if (state == State.Setup) {
 			sendGameSetup();
 
-			// TODO: Move this to CharacterSelectMessage at the appropriate time...
-			if (players.size() >= PLAYER_START_COUNT) {
+			//TODO: Move this to CharacterSelectMessage at the appropriate time...
+			if ((players.size() >= PLAYER_START_COUNT) && (getPlayerDetail(GameEntityId.InvalidValue).size() == 0)) {
 				LOG.info("Starting CLO session[session={}]: {}", this.gameSessionId, this.players);
 				sessionCleanup();
 			}
-		} else if (state == State.Play)
-			; // TODO: rejoining in the play state...
+		}
+		else if (state == State.Play) {
+			; //TODO: rejoining in the play state...
+		}
 		else
 			sendEndGame();
 	}
-
+	
+	//TODO: get back to this asap!
+//	private void sessionSetup() {
+//		
+//	}
+  
 	private void sessionCleanup() {
 
 		/*

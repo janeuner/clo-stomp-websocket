@@ -24,9 +24,10 @@ public class GameBoardView extends JPanel {
 	private JLabel board = new JLabel();
 
 	private ArrayList<JLabel> gamePiece = new ArrayList<JLabel>();
+	private PlayerDetail player;
 
 	GameBoardView(PlayerDetail player) {
-
+		this.player = player;
 		JLayeredPane layPane = new JLayeredPane();
 		layPane.setPreferredSize(new Dimension(boardImage.getIconWidth(), boardImage.getIconHeight()));
 		board.setIcon(getImage());
@@ -59,9 +60,13 @@ public class GameBoardView extends JPanel {
 
 	}
 	
-	public void setnewLocation(int x, int y) {
-		gamePiece.get(0).setLocation(x, y);
-	}
+	
+	
+	
+	
+	public boolean isInRoom(){
+		 return player.getMovement().getLocation()!=null;
+	 }
 
 	public Point getGamePiecePoint(int index) {
 		return new Point(gamePiece.get(index).getX(), gamePiece.get(index).getY());
