@@ -308,30 +308,39 @@ public class CloGameSession {
 	/*
 	 * Handles "move" from clients.
 	 * 
-	 * @param move the @see MoveMessage that the server received
+	 * @param move the @see "move" message that the server received
 	 * 
-	 * @param playerName player name for the client that sent the message
+	 * @param sid the connection/session ID associated with the move
+	 * 
+	 * @param pd the @see PlayerDetail that is mapped to this message
 	 */
-	public void moveMessageHandler(MoveMessage move) {
+	public void moveMessageHandler(MoveMessage move, String sid, PlayerDetail pd) {
+		
 		//get destination from message
 		GameEntityId dest = move.getDest();
+		
 		//get the name of the piece of the player sending the message
-		GameEntityId player=PlayerDetail.getPlayerDetail(move.getMid()).getPlayerInfo().getPieceName();
+		GameEntityId player = pd.getPlayerInfo().getPieceName();
+		
 		PieceInfo info=null;
 		boolean isOccupied=false;
+		
 		//iterates through pieces for player piece, and check for occupied hallways
 		for(PieceInfo piece : pieces) {
 			if(piece.getId().equals(player)) {
 				info=piece;
 			}
-			//if any susepct is in the desintation, and that destination is a hallway
-			if(piece.isSuspect() && piece.getLoc().equals(dest) && PieceInfo.isHallway(dest)) {
+			
+			//if any suspect is in the destination, and that destination is a hallway
+			//TODO: Unit testing!!!
+			if(PieceInfo.isSuspect(piece.getId()) && piece.getLoc().equals(dest) && PieceInfo.isHallway(dest)) {
 				isOccupied=true;
 			}
 		}
+		
 		//PieceInfo.moveTo() checks for isValid move, 
-		if(!isOccupied) {
-			info.moveTo(loc);
+		if(!isOccupied && (info != null)) {
+			info.moveTo(dest);
 		}
 	}
 
